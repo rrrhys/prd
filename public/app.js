@@ -268,6 +268,12 @@ function openAddTicketModal() {
     commentsDisplay.innerHTML = '';
   }
 
+  // Clear existing PRs display
+  const prsDisplay = document.getElementById('existing-prs');
+  if (prsDisplay) {
+    prsDisplay.innerHTML = '';
+  }
+
   modal.style.display = 'flex';
 }
 
@@ -296,6 +302,9 @@ function openEditTicketModal(ticket) {
   // Display existing comments
   displayExistingComments(ticket.comments || []);
 
+  // Display existing PRs
+  displayExistingPRs(ticket.prs || []);
+
   modal.style.display = 'flex';
 }
 
@@ -322,6 +331,43 @@ function displayExistingComments(comments) {
 }
 
 /**
+ * Display existing PRs in the modal
+ * @param {Array} prs - Array of PR URL strings
+ */
+function displayExistingPRs(prs) {
+  const prsDisplay = document.getElementById('existing-prs');
+  if (!prsDisplay) return;
+
+  // Clear previous PRs
+  prsDisplay.innerHTML = '';
+
+  // Display each PR as a link
+  if (prs && prs.length > 0) {
+    prs.forEach(prUrl => {
+      const prDiv = document.createElement('div');
+      prDiv.className = 'pr-item';
+
+      // Extract PR number from URL for display
+      const prNumber = prUrl.match(/pull\/(\d+)/)?.[1] || 'PR';
+      const repoMatch = prUrl.match(/github\.com\/([^\/]+\/[^\/]+)/);
+      const repoName = repoMatch ? repoMatch[1] : '';
+
+      const link = document.createElement('a');
+      link.href = prUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.className = 'pr-link';
+      link.innerHTML = `🔗 ${repoName}#${prNumber}`;
+
+      prDiv.appendChild(link);
+      prsDisplay.appendChild(prDiv);
+    });
+  } else {
+    prsDisplay.innerHTML = '<div class="empty-state-small">No PRs yet</div>';
+  }
+}
+
+/**
  * Close the modal
  */
 function closeModal() {
@@ -335,6 +381,11 @@ function closeModal() {
   const commentsDisplay = document.getElementById('existing-comments');
   if (commentsDisplay) {
     commentsDisplay.innerHTML = '';
+  }
+  // Clear existing PRs display
+  const prsDisplay = document.getElementById('existing-prs');
+  if (prsDisplay) {
+    prsDisplay.innerHTML = '';
   }
   // Clear current ticket reference
   currentTicket = null;
