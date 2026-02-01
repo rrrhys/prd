@@ -18,39 +18,51 @@ Work Manager is a kanban board application that visualizes and manages work item
 - **Node.js** (version 14 or higher)
 - **npm** (comes with Node.js)
 - A code editor (VS Code, Sublime, etc.)
-- Git (optional, for version control)
+- Git (for cloning the repository)
 
 ## Installation Steps
 
-### 1. Copy the .prd Folder
+### 1. Clone the Repository
 
-Copy the entire `.prd/` folder to your new project. Everything you need is self-contained in this folder:
+Clone the Work Manager repository into your project directory:
 
+**Option A: Clone as a subdirectory (recommended)**
+```bash
+cd your-project
+git clone https://github.com/rrrhys/prd.git .prd
+cd .prd
 ```
-your-project/
-└── .prd/
-    ├── prd.json              # Your project's tickets (start with empty array: [])
-    ├── prd.json.example      # Example ticket structure
-    ├── config.json           # Configuration (project name, port)
-    ├── readme.txt            # PRD system documentation
-    ├── setup_instructions.md # This file
-    ├── package.json          # Dependencies
-    ├── package-lock.json     # Dependency lock file
-    ├── server.js             # Express backend API
-    ├── .gitignore            # Git ignore rules
-    ├── public/               # Frontend files
-    │   ├── index.html        # Kanban board UI
-    │   ├── styles.css        # Styling
-    │   └── app.js            # Frontend logic
-    └── node_modules/         # (generated after npm install)
+
+**Option B: Clone as a standalone project**
+```bash
+git clone https://github.com/rrrhys/prd.git my-project-prd
+cd my-project-prd
+```
+
+The repository contains:
+```
+prd/
+├── prd.json              # Your project's tickets (gitignored, create from example)
+├── prd.json.example      # Example ticket structure
+├── config.json           # Configuration (project name, port)
+├── readme.txt            # PRD system documentation
+├── setup_instructions.md # This file
+├── package.json          # Dependencies
+├── package-lock.json     # Dependency lock file
+├── server.js             # Express backend API
+├── .gitignore            # Git ignore rules
+├── public/               # Frontend files
+│   ├── index.html        # Kanban board UI
+│   ├── styles.css        # Styling
+│   └── app.js            # Frontend logic
+└── node_modules/         # (generated after npm install)
 ```
 
 ### 2. Install Dependencies
 
-Navigate to the `.prd/` directory and install dependencies:
+Install the required npm packages:
 
 ```bash
-cd your-project/.prd
 npm install
 ```
 
@@ -61,7 +73,7 @@ This will install:
 
 ### 3. Initialize Your PRD
 
-Create your initial `prd.json` file in the `.prd/` directory. Start with an empty array or copy from the example:
+Create your initial `prd.json` file in the root directory. Start with an empty array or copy from the example:
 
 **Option A: Start empty**
 ```json
@@ -87,7 +99,7 @@ Create your initial `prd.json` file in the `.prd/` directory. Start with an empt
 
 ### 4. Start the Server
 
-From the `.prd/` directory, run the server:
+Run the server:
 
 ```bash
 npm start
@@ -148,7 +160,7 @@ You should see the kanban board with 5 columns.
 
 ## Configuration File
 
-Work Manager uses `.prd/config.json` to configure the project. This file controls:
+Work Manager uses `config.json` to configure the project. This file controls:
 - **projectName**: The name displayed in the browser tab and header
 - **port**: The port the server runs on
 
@@ -164,7 +176,7 @@ Work Manager uses `.prd/config.json` to configure the project. This file control
 
 To customize the project name:
 
-1. Open `.prd/config.json`
+1. Open `config.json`
 2. Change the `projectName` value:
 ```json
 {
@@ -180,7 +192,7 @@ The new name will appear in the browser tab and header.
 
 To change the port:
 
-1. Open `.prd/config.json`
+1. Open `config.json`
 2. Change the `port` value:
 ```json
 {
@@ -195,8 +207,8 @@ To change the port:
 
 If you need to run Work Manager for multiple projects simultaneously:
 
-1. Copy the entire directory to separate locations
-2. Edit `.prd/config.json` in each instance with a unique port and project name
+1. Clone the repository to separate locations
+2. Edit `config.json` in each instance with a unique port and project name
 3. Start each server independently
 
 Example:
@@ -283,7 +295,7 @@ Edit `public/styles.css` and update the CSS custom properties:
 
 To add custom workflow statuses:
 
-1. Update `.prd/readme.txt` to document new statuses
+1. Update `readme.txt` to document new statuses
 2. Update `server.js` validation arrays for POST and PATCH endpoints
 3. Add new columns in `public/index.html`
 4. Update CSS for new columns in `public/styles.css`
@@ -304,16 +316,18 @@ The `.gitignore` file is already configured to exclude `node_modules/`.
 
 ### Backing Up PRD Data
 
-Your tickets are stored in `.prd/prd.json`. To backup:
+Your tickets are stored in `prd.json`. To backup:
 
 ```bash
 # Manual backup
-cp .prd/prd.json .prd/prd.json.backup
+cp prd.json prd.json.backup
 
-# Or commit to git
-git add .prd/prd.json
+# Or commit to git (if you've removed it from .gitignore)
+git add prd.json
 git commit -m "Update PRD with latest tickets"
 ```
+
+**Note**: By default, `prd.json` is in `.gitignore` to prevent accidentally committing sensitive project data. Remove it from `.gitignore` if you want to version control your tickets.
 
 ## Troubleshooting
 
@@ -324,7 +338,7 @@ git commit -m "Update PRD with latest tickets"
 
 ### Tickets not loading
 
-1. Check that `.prd/prd.json` exists and contains valid JSON
+1. Check that `prd.json` exists and contains valid JSON
 2. Open browser console (F12) and check for errors
 3. Verify the server is running on port 3000
 4. Check server console for error messages
@@ -338,7 +352,7 @@ git commit -m "Update PRD with latest tickets"
 ### Changes not saving
 
 1. Check server console for API errors
-2. Verify `.prd/prd.json` file has write permissions
+2. Verify `prd.json` file has write permissions
 3. Check browser console for JavaScript errors during save
 
 ## Production Deployment
@@ -363,9 +377,10 @@ pm2 startup
 ## Support
 
 For issues or questions:
-- Review the `.prd/readme.txt` file for PRD system documentation
+- Review the `readme.txt` file for PRD system documentation
 - Check the code comments in `server.js`, `app.js`, and `index.html`
 - Ensure all dependencies are installed with `npm install`
+- Visit the GitHub repository: https://github.com/rrrhys/prd
 
 ## License
 
