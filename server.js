@@ -214,12 +214,22 @@ app.patch('/api/tickets/:id', (req, res) => {
       // Get the existing ticket
       const existingTicket = tickets[ticketIndex];
 
+      // Handle new comment separately (append to comments array)
+      let updatedComments = existingTicket.comments || [];
+      if (req.body.newComment) {
+        updatedComments = [...updatedComments, req.body.newComment];
+      }
+
       // Update ticket with partial data (only fields provided in request)
+      // Exclude newComment from spread (it's not a ticket field)
+      const { newComment, ...updateData } = req.body;
+
       const updatedTicket = {
         ...existingTicket,
-        ...req.body,
+        ...updateData,
         id: existingTicket.id, // Preserve ID (cannot be changed)
-        createdDate: existingTicket.createdDate // Preserve createdDate (cannot be changed)
+        createdDate: existingTicket.createdDate, // Preserve createdDate (cannot be changed)
+        comments: updatedComments // Use updated comments array
       };
 
       // Replace the ticket in the array

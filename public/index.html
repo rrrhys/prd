@@ -136,9 +136,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="ticket-comments" class="form-label">Comments</label>
-                        <textarea id="ticket-comments" name="comments" class="form-textarea" rows="3" placeholder="Add a comment (one per line)"></textarea>
-                        <small class="form-help">Existing comments will be shown above. Add new comments here.</small>
+                        <label class="form-label">Existing Comments</label>
+                        <div id="existing-comments" class="comments-display">
+                            <!-- Existing comments will be displayed here -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ticket-comments" class="form-label">Add New Comment</label>
+                        <textarea id="ticket-comments" name="comments" class="form-textarea" rows="3" placeholder="Add a new comment..."></textarea>
+                        <small class="form-help">Enter a new comment to add to this ticket.</small>
                     </div>
 
                     <div class="form-actions">

@@ -252,7 +252,32 @@ function openEditTicketModal(ticket) {
   document.getElementById('ticket-status').value = ticket.status;
   document.getElementById('ticket-comments').value = '';
 
+  // Display existing comments
+  displayExistingComments(ticket.comments || []);
+
   modal.style.display = 'flex';
+}
+
+/**
+ * Display existing comments in the modal
+ * @param {Array} comments - Array of comment strings
+ */
+function displayExistingComments(comments) {
+  const commentsDisplay = document.getElementById('existing-comments');
+  if (!commentsDisplay) return;
+
+  // Clear previous comments
+  commentsDisplay.innerHTML = '';
+
+  // Display each comment
+  if (comments && comments.length > 0) {
+    comments.forEach(comment => {
+      const commentDiv = document.createElement('div');
+      commentDiv.className = 'comment-item';
+      commentDiv.textContent = comment;
+      commentsDisplay.appendChild(commentDiv);
+    });
+  }
 }
 
 /**
@@ -264,6 +289,11 @@ function closeModal() {
   }
   if (ticketForm) {
     ticketForm.reset();
+  }
+  // Clear existing comments display
+  const commentsDisplay = document.getElementById('existing-comments');
+  if (commentsDisplay) {
+    commentsDisplay.innerHTML = '';
   }
 }
 
@@ -285,6 +315,12 @@ async function handleFormSubmit(e) {
     assignee: document.getElementById('ticket-assignee').value,
     status: document.getElementById('ticket-status').value
   };
+
+  // Add new comment if provided (only for edits)
+  const newComment = document.getElementById('ticket-comments').value.trim();
+  if (isEdit && newComment) {
+    ticketData.newComment = newComment;
+  }
 
   try {
     let response;
