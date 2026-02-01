@@ -1179,8 +1179,62 @@ Building a kanban board application to visualize and manage work items from the 
 - **Files modified**:
   - .prd/prd.json (updated task 14 status and comments)
 
+#### Task 15: Update PRD instructions for status monitoring ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Issue**: No way for user to monitor which task Claude is currently working on
+- **Implementation**:
+  - Updated .prd/readme.txt with new guideline for LLMs (guideline #7)
+  - Added instruction: "When you start working on a ticket, immediately update its status to 'in dev'"
+  - Requirement: Update status BEFORE beginning implementation work
+  - Requirement: Add a comment noting when work started on the ticket
+  - **Benefits**:
+    - Users can monitor task progress in real-time
+    - Clear visibility into which task is actively being worked on
+    - Better project tracking and status transparency
+- **Files modified**:
+  - .prd/readme.txt (lines 99-107, added guideline #7)
+- **Files modified**:
+  - .prd/prd.json (updated task 15 status to "dev done" and added comments)
+- **Next**: Task 16 - Add config.json for project customization
+
+#### Task 16: Add config.json for project customization ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Issue**: Need to configure project name and port for multiple instances
+- **Implementation**:
+  - Created .prd/config.json with default configuration:
+    - projectName: "Work Manager" (customizable project name for tab title)
+    - port: 3000 (configurable port for multiple running instances)
+  - **Backend Changes** (server.js):
+    - Added config loading logic at startup using fs.readFileSync
+    - Reads config.json from .prd folder with error handling
+    - Falls back to defaults if config file not found or invalid
+    - Uses config.port for server PORT variable
+    - Added GET /api/config endpoint to serve projectName to frontend
+    - Endpoint only exposes projectName (not port for security)
+  - **Frontend Changes** (public/app.js):
+    - Created fetchConfigAndUpdateUI() async function
+    - Fetches config from /api/config on page load
+    - Updates document.title to "{projectName} - Kanban Board"
+    - Updates header title (.header-title) to display projectName
+    - Error handling with fallback to defaults if fetch fails
+    - Called from DOMContentLoaded event before fetching tickets
+  - **Benefits**:
+    - Users can customize project name in browser tab and header
+    - Multiple instances can run on different ports without code changes
+    - Configuration centralized in single JSON file
+    - Backend validates and provides safe defaults
+    - Frontend updates dynamically based on config
+- **Files created**:
+  - .prd/config.json
+- **Files modified**:
+  - server.js (config loading and /api/config endpoint)
+  - public/app.js (fetchConfigAndUpdateUI function)
+- **Next**: All tasks complete!
+
 ### Current Status
-- **Completed Tasks**: 1-14 (14 tasks complete)
-- **Remaining Tasks**: 15, 16
-- **Next Priority**: Task 15 - Auto-update ticket status to 'in dev' (2 story points, medium priority)
+- **Completed Tasks**: 1-16 (16 tasks complete)
+- **Remaining Tasks**: 0
+- **Project Status**: ✅ COMPLETE
 

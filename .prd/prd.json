@@ -380,11 +380,22 @@
     "id": 16,
     "title": "Add a config.json in .prd folder",
     "description": "So we can configure project name etc for the tab, instad of \"Work Manager\".\nIt should also unfortunately allow me to set port, since there may be multiple running.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 2,
     "priority": "low",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Started work on Task 16 (2026-02-01)",
+      "Created .prd/config.json with projectName and port configuration",
+      "Updated server.js to read config on startup with fs.readFileSync",
+      "Server falls back to defaults if config.json not found or invalid",
+      "Added GET /api/config endpoint to serve projectName to frontend (port not exposed for security)",
+      "Updated public/app.js with fetchConfigAndUpdateUI() function",
+      "Frontend fetches config on page load and updates document.title and header title",
+      "Users can now customize project name in .prd/config.json",
+      "Multiple instances can run on different ports by changing config.json",
+      "All requirements fulfilled: configurable project name and port"
+    ]
   }
 ]

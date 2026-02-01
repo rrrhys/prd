@@ -5,7 +5,19 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+
+// Load configuration from .prd/config.json
+const configPath = path.join(__dirname, '.prd', 'config.json');
+let config = { projectName: 'Work Manager', port: 3000 }; // Default values
+
+try {
+  const configData = fs.readFileSync(configPath, 'utf8');
+  config = { ...config, ...JSON.parse(configData) };
+} catch (err) {
+  console.warn('Could not load config.json, using defaults:', err.message);
+}
+
+const PORT = config.port;
 
 // Middleware
 app.use(cors());
@@ -15,6 +27,13 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // API Routes
+
+// GET /api/config - Return configuration data (projectName only)
+app.get('/api/config', (req, res) => {
+  res.json({
+    projectName: config.projectName
+  });
+});
 
 // GET /api/tickets - Read all tickets from prd.json
 app.get('/api/tickets', (req, res) => {

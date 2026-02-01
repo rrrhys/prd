@@ -24,6 +24,7 @@ let currentTicket = null;
 document.addEventListener('DOMContentLoaded', () => {
   initializeElements();
   setupEventListeners();
+  fetchConfigAndUpdateUI();
   fetchAndDisplayTickets();
 });
 
@@ -42,6 +43,33 @@ function initializeElements() {
   columns['in dev'] = document.getElementById('in-dev-column');
   columns['dev done'] = document.getElementById('dev-done-column');
   columns['uat done'] = document.getElementById('uat-done-column');
+}
+
+/**
+ * Fetch configuration and update UI with project name
+ */
+async function fetchConfigAndUpdateUI() {
+  try {
+    const response = await fetch('/api/config');
+    if (!response.ok) {
+      throw new Error('Failed to fetch config');
+    }
+    const config = await response.json();
+
+    // Update page title
+    if (config.projectName) {
+      document.title = `${config.projectName} - Kanban Board`;
+
+      // Update header title
+      const headerTitle = document.querySelector('.header-title');
+      if (headerTitle) {
+        headerTitle.textContent = config.projectName;
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching config:', error);
+    // Continue with defaults if config fetch fails
+  }
 }
 
 /**
