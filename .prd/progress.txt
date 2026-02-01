@@ -1320,6 +1320,24 @@ Building a kanban board application to visualize and manage work items from the 
 - **Remaining Tasks**: 0
 - **Project Status**: Ready for v1.0.0 release - Fully portable!
 
+#### Task 18: Enhanced Documentation and Path Fixes (2026-02-01) ✓
+- **Additional improvements to Task 18**:
+  - Fixed server.js static file serving to use absolute path: `path.join(__dirname, 'public')`
+  - Created comprehensive .prd/README.md file:
+    - Quick Start guide specific to .prd folder
+    - Complete file structure documentation
+    - Features list and API endpoints
+    - Running on different ports instructions
+    - Running multiple instances guide
+    - Version history section
+  - Enhanced main README.md:
+    - Added "Self-Contained in .prd Folder" as key feature
+    - Updated Quick Start with copy instructions for .prd folder
+    - Updated Project Structure to emphasize self-contained nature
+    - Improved Running Multiple Instances section with detailed examples
+  - All documentation now clearly communicates portability
+  - .prd folder is fully documented for standalone use
+
 ### Summary
 Work Manager v1.0.0 is complete with all features implemented:
 - ✅ Full kanban board with 5 workflow columns
