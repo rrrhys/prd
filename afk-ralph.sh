@@ -20,17 +20,14 @@ if [ -z "$1" ]; then
 fi
 
 for ((i=1; i<=$1; i++)); do
-  result=$(claude --permission-mode acceptEdits -p "@PRD.md @progress.txt \
-  0. Commit and push any changes. You can push to git yourself.
-  1. Find the highest-priority task and implement it. \
-  1.a. All work should be on a git branch. \
-  2. Run your tests and type checks. \
-  3. Update the PRD with what was done. \
-  4. Append your progress to progress.txt. \
+  result=$(claude --permission-mode acceptEdits --dangerously-skip-permissions -p "@.prd/prd.json @.prd/readme.txt @progress.txt \
+1. Read the PRD JSON file and progress file. Read the readme to understand how to work on the prd. \
+2. Find the next incomplete task and implement it. \
+3. Commit your changes. \
+4. Update progress.txt with what you did. Add your comments to the comments field of prd.json and update the status. \
   5. Commit your changes and push. Make a PR on github. \
   6. Add any other tasks you find to the PRD. \
-  7. Any problems or blockers you find, add to 'problems.txt' for me to review. \
-  ONLY WORK ON A SINGLE TASK. \
+ONLY DO ONE TASK AT A TIME. \
   If the PRD is complete, output <promise>COMPLETE</promise>.")
 
   echo "$result"
