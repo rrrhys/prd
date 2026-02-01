@@ -331,13 +331,11 @@ async function handleFormSubmit(e) {
     status: document.getElementById('ticket-status').value
   };
 
-  // Handle comments - append new comment to existing comments array
+  // Handle comments - send new comment to backend
   const newComment = document.getElementById('ticket-comments').value.trim();
   if (isEdit && newComment) {
-    // Get existing comments from current ticket
-    const existingComments = currentTicket?.comments || [];
-    // Append the new comment to the array
-    ticketData.comments = [...existingComments, newComment];
+    // Backend will append this to existing comments array
+    ticketData.newComment = newComment;
   }
 
   try {
