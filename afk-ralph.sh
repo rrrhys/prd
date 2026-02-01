@@ -7,10 +7,7 @@ set -e
 if [ -t 0 ] && [ -z "$NOHUP_MODE" ]; then
   export NOHUP_MODE=1
   LOG_FILE="ralph-$(date +%Y%m%d-%H%M%S).log"
-  echo "Starting in persistent mode. Output: $LOG_FILE"
   nohup "$0" "$@" > "$LOG_FILE" 2>&1 &
-  echo "Process started with PID: $!"
-  echo "Monitor with: tail -f $LOG_FILE"
   exit 0
 fi
 
@@ -30,10 +27,7 @@ for ((i=1; i<=$1; i++)); do
 ONLY DO ONE TASK AT A TIME. \
   If the PRD is complete, output <promise>COMPLETE</promise>.")
 
-  echo "$result"
-
   if [[ "$result" == *"<promise>COMPLETE</promise>"* ]]; then
-    echo "PRD complete after $i iterations."
     exit 0
   fi
 done
