@@ -41,6 +41,12 @@ app.get('/api/tickets', (req, res) => {
 
   fs.readFile(prdPath, 'utf8', (err, data) => {
     if (err) {
+      // If file doesn't exist, return empty array
+      if (err.code === 'ENOENT') {
+        console.log('prd.json not found, returning empty array');
+        return res.json([]);
+      }
+
       console.error('Error reading prd.json:', err);
       return res.status(500).json({
         error: 'Failed to read tickets data',
@@ -104,17 +110,33 @@ app.post('/api/tickets', (req, res) => {
 
   // Read existing tickets
   fs.readFile(prdPath, 'utf8', (err, data) => {
+    let tickets = [];
+
     if (err) {
-      console.error('Error reading prd.json:', err);
-      return res.status(500).json({
-        error: 'Failed to read tickets data',
-        message: err.message
-      });
+      // If file doesn't exist, initialize with empty array
+      if (err.code === 'ENOENT') {
+        console.log('prd.json not found, initializing with empty array');
+        tickets = [];
+      } else {
+        console.error('Error reading prd.json:', err);
+        return res.status(500).json({
+          error: 'Failed to read tickets data',
+          message: err.message
+        });
+      }
+    } else {
+      try {
+        tickets = JSON.parse(data);
+      } catch (parseErr) {
+        console.error('Error parsing prd.json:', parseErr);
+        return res.status(500).json({
+          error: 'Failed to parse tickets data',
+          message: parseErr.message
+        });
+      }
     }
 
     try {
-      const tickets = JSON.parse(data);
-
       // Find highest existing ID and increment
       const maxId = tickets.reduce((max, ticket) => Math.max(max, ticket.id), 0);
       const newId = maxId + 1;
@@ -152,11 +174,11 @@ app.post('/api/tickets', (req, res) => {
         res.status(201).json(newTicket);
       });
 
-    } catch (parseErr) {
-      console.error('Error parsing prd.json:', parseErr);
+    } catch (err) {
+      console.error('Error creating ticket:', err);
       res.status(500).json({
-        error: 'Failed to parse tickets data',
-        message: parseErr.message
+        error: 'Failed to create ticket',
+        message: err.message
       });
     }
   });
@@ -210,6 +232,15 @@ app.patch('/api/tickets/:id', (req, res) => {
   // Read existing tickets
   fs.readFile(prdPath, 'utf8', (err, data) => {
     if (err) {
+      // If file doesn't exist, return 404
+      if (err.code === 'ENOENT') {
+        console.log('prd.json not found');
+        return res.status(404).json({
+          error: 'Tickets file not found',
+          message: 'No prd.json file exists. Create a ticket first to initialize the file.'
+        });
+      }
+
       console.error('Error reading prd.json:', err);
       return res.status(500).json({
         error: 'Failed to read tickets data',
@@ -217,9 +248,18 @@ app.patch('/api/tickets/:id', (req, res) => {
       });
     }
 
+    let tickets;
     try {
-      const tickets = JSON.parse(data);
+      tickets = JSON.parse(data);
+    } catch (parseErr) {
+      console.error('Error parsing prd.json:', parseErr);
+      return res.status(500).json({
+        error: 'Failed to parse tickets data',
+        message: parseErr.message
+      });
+    }
 
+    try {
       // Find the ticket by ID
       const ticketIndex = tickets.findIndex(ticket => ticket.id === ticketId);
 
@@ -268,11 +308,11 @@ app.patch('/api/tickets/:id', (req, res) => {
         res.json(updatedTicket);
       });
 
-    } catch (parseErr) {
-      console.error('Error parsing prd.json:', parseErr);
+    } catch (err) {
+      console.error('Error updating ticket:', err);
       res.status(500).json({
-        error: 'Failed to parse tickets data',
-        message: parseErr.message
+        error: 'Failed to update ticket',
+        message: err.message
       });
     }
   });
