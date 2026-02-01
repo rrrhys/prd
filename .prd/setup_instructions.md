@@ -31,6 +31,7 @@ your-project/
 ├── .prd/
 │   ├── prd.json          # Your project's tickets (start with empty array: [])
 │   ├── prd.json.example  # Example ticket structure
+│   ├── config.json       # Configuration (project name, port)
 │   ├── readme.txt        # PRD system documentation
 │   └── setup_instructions.md  # This file
 ├── public/
@@ -144,36 +145,77 @@ You should see the kanban board with 5 columns.
 - **dev done**: Development complete, ready for testing
 - **uat done**: User acceptance testing complete
 
-## Port Configuration
+## Configuration File
 
-By default, the server runs on **port 3000**. To change this:
+Work Manager uses `.prd/config.json` to configure the project. This file controls:
+- **projectName**: The name displayed in the browser tab and header
+- **port**: The port the server runs on
 
-1. Open `server.js`
-2. Find the line: `const PORT = process.env.PORT || 3000;`
-3. Change to your desired port: `const PORT = process.env.PORT || 4000;`
-
-Or set an environment variable:
-
-```bash
-PORT=4000 npm start
+**Default config.json:**
+```json
+{
+  "projectName": "Work Manager",
+  "port": 3000
+}
 ```
+
+### Changing Project Name
+
+To customize the project name:
+
+1. Open `.prd/config.json`
+2. Change the `projectName` value:
+```json
+{
+  "projectName": "My Awesome Project",
+  "port": 3000
+}
+```
+3. Restart the server
+
+The new name will appear in the browser tab and header.
+
+### Changing Port
+
+To change the port:
+
+1. Open `.prd/config.json`
+2. Change the `port` value:
+```json
+{
+  "projectName": "Work Manager",
+  "port": 4000
+}
+```
+3. Restart the server
+4. Access the app at `http://localhost:4000`
 
 ## Running Multiple Instances
 
 If you need to run Work Manager for multiple projects simultaneously:
 
 1. Copy the entire directory to separate locations
-2. Change the port in each instance's `server.js`
+2. Edit `.prd/config.json` in each instance with a unique port and project name
 3. Start each server independently
 
 Example:
-- Project A: runs on port 3000
-- Project B: runs on port 3001
-- Project C: runs on port 3002
+- **Project A** (`config.json`): `{ "projectName": "Frontend App", "port": 3000 }`
+- **Project B** (`config.json`): `{ "projectName": "Backend API", "port": 3001 }`
+- **Project C** (`config.json`): `{ "projectName": "Mobile App", "port": 3002 }`
 
 ## API Endpoints
 
 Work Manager provides a REST API for ticket management:
+
+### GET /api/config
+Retrieve the configuration (project name).
+
+**Response**: Configuration object
+```json
+{
+  "projectName": "Work Manager"
+}
+```
 
 ### GET /api/tickets
 Retrieve all tickets.
@@ -221,11 +263,7 @@ Update an existing ticket (supports partial updates).
 
 ### Changing Project Name
 
-Edit `public/index.html` and change the header title:
-
-```html
-<h1>Work Manager</h1>  <!-- Change to your project name -->
-```
+The project name is configured in `.prd/config.json`. See the **Configuration File** section above for details.
 
 ### Modifying Colors
 
