@@ -80,6 +80,12 @@ prs (array, required)
   - Multiple PRs can be listed if changes span multiple repositories (app, api)
   - Examples: "https://github.com/AwesomeProjectManagement/app/pull/296"
 
+clientRef (string, optional)
+  - Client reference identifier or ticket number from external system
+  - Used to track the original request or bug report
+  - Can be null or omitted if not applicable
+  - Examples: "86d1me4xu", "JIRA-1234", "Support-5678"
+
 EXAMPLE TICKET
 --------------
 {
@@ -92,7 +98,8 @@ EXAMPLE TICKET
   "assignee": "john.doe",
   "createdDate": "2026-01-15",
   "comments": [],
-  "prs": []
+  "prs": [],
+  "clientRef": null
 }
 
 USAGE GUIDELINES
