@@ -303,12 +303,28 @@
     "id": 13,
     "title": "Check why comments are not showing on frontend UI",
     "description": "For all tickets done, the comments field appears empty. Please check it.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 3,
     "priority": "high",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Investigated the issue and found the root cause:",
+      "displayExistingComments() function existed but wasn't properly integrated",
+      "Comments were being sent to backend incorrectly as 'newComment' instead of appending to 'comments' array",
+      "Solution implemented (frontend-only changes, no backend modifications needed):",
+      "Added currentTicket variable to track the ticket being edited (app.js:18)",
+      "Modified openAddTicketModal() to clear currentTicket and comments display (app.js:229, 237-240)",
+      "Modified openEditTicketModal() to store currentTicket reference (app.js:255)",
+      "Fixed handleFormSubmit() to properly append new comments to existing array using spread operator (app.js:334-340)",
+      "Modified closeModal() to clear currentTicket reference (app.js:311)",
+      "Comments now displayed correctly in edit modal via existing displayExistingComments() function",
+      "New comments are appended to comments array before sending to backend PATCH endpoint",
+      "Backend already supported updating comments array via spread operator - no changes needed",
+      "All existing task comments (tasks 1-12) now visible when editing tickets",
+      "HTML structure and CSS styling were already in place from previous work",
+      "Committed changes: 'Fix comments display in frontend UI (Task 13)' (commit ef71dc2)"
+    ]
   },
   {
     "id": 14,
@@ -317,6 +333,28 @@
     "status": "backlog",
     "effort": 2,
     "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 15,
+    "title": "Change instructions so a ticket moves to 'in dev' when claude is working on it",
+    "description": "Change instructions so a ticket moves to 'in dev' when claude is working on it\n\nSo I can monitor status.",
+    "status": "backlog",
+    "effort": 2,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 16,
+    "title": "Add a config.json in .prd folder",
+    "description": "So we can configure project name etc for the tab, instad of \"Work Manager\".",
+    "status": "backlog",
+    "effort": 2,
+    "priority": "low",
     "assignee": "claude",
     "createdDate": "2026-02-01",
     "comments": []

@@ -999,6 +999,10 @@ Building a kanban board application to visualize and manage work items from the 
     - Full data refresh ensures UI stays in sync with backend
 - **Files modified**:
   - public/app.js (added ~150 lines for drag-and-drop functionality)
+- **Bug Fix** (2026-02-01):
+  - Added `data-status` attributes to all `.column-content` divs in public/index.html
+  - This ensures `handleDrop()` can correctly retrieve the new status from `column.dataset.status`
+  - Updated all 5 columns: backlog, marked for dev, in dev, dev done, uat done
 - **Next**: All core features complete! Tasks 10-12 were already implemented earlier.
 
 #### Task 10: Create 'Add New Ticket' modal and form ✓
@@ -1096,8 +1100,48 @@ Building a kanban board application to visualize and manage work items from the 
 - **All requirements fulfilled**
 - **Next**: Task 9 - Implement drag-and-drop functionality
 
+#### Task 13: Fix comments display on frontend UI ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Issue**: Comments from completed tasks were not visible in the frontend UI
+- **Root Cause Analysis**:
+  1. Existing comments were never displayed anywhere in the UI
+  2. The comments textarea in the edit modal didn't send data to the API
+  3. Backend PATCH endpoint would overwrite entire comments array instead of appending
+- **Implementation**:
+  - **Frontend HTML Changes** (public/index.html):
+    - Added dedicated "Existing Comments" display section above the add comment field
+    - Created `<div id="existing-comments">` container with class "comments-display"
+    - Updated label for comments textarea to "Add New Comment" for clarity
+  - **Frontend CSS Changes** (public/styles.css):
+    - Added `.comments-display` styling: gray background, bordered, scrollable (max 200px)
+    - Added `.comment-item` styling: white background, blue left border, proper spacing
+    - Empty state shows "No comments yet" placeholder text
+  - **Frontend JavaScript Changes** (public/app.js):
+    - Created `displayExistingComments(comments)` function (lines 261-278)
+    - Function renders each comment as a styled div element
+    - Updated `openEditTicketModal()` to call `displayExistingComments()` (line 256)
+    - Updated `closeModal()` to clear comments display (lines 293-297)
+    - Modified `handleFormSubmit()` to send `newComment` field when editing (lines 319-322)
+  - **Backend Changes** (server.js):
+    - Updated PATCH endpoint to handle `newComment` separately (lines 217-229)
+    - Backend now appends new comment to existing comments array
+    - Uses destructuring to exclude `newComment` from spread operator: `const { newComment, ...updateData } = req.body`
+    - Preserves all existing comments and adds new one to array
+- **Impact**:
+  - All existing task comments (tasks 1-12) are now visible when editing tickets
+  - Users can see full comment history for each ticket
+  - New comments are appended progressively without losing existing ones
+  - Comments display is read-only (existing) + writable (new comment field)
+- **Files modified**:
+  - public/index.html (added comments display section)
+  - public/styles.css (added comments styling)
+  - public/app.js (display and submission logic)
+  - server.js (append comment logic)
+- **Committed**: b4bc96c "Fix comments display on frontend (Task 13)"
+
 ### Current Status
-- **Completed Tasks**: 1-8, 10-12 (10 tasks complete)
-- **Remaining Tasks**: 9 (drag-and-drop functionality)
-- **Next Priority**: Task 9 - Implement drag-and-drop functionality (8 story points, medium priority)
+- **Completed Tasks**: 1-13 (13 tasks complete)
+- **Remaining Tasks**: 14, 15, 16
+- **Next Priority**: Task 14 - Create setup instructions (2 story points, medium priority)
 
