@@ -1139,6 +1139,15 @@ Building a kanban board application to visualize and manage work items from the 
   - public/app.js (display and submission logic)
   - server.js (append comment logic)
 - **Committed**: b4bc96c "Fix comments display on frontend (Task 13)"
+- **Additional Improvements** (commit ef71dc2):
+  - Added `currentTicket` variable to properly track the ticket being edited
+  - Enhanced `openAddTicketModal()` to clear currentTicket reference and comments display
+  - Enhanced `openEditTicketModal()` to store currentTicket reference for better state management
+  - Enhanced `closeModal()` to properly clean up currentTicket reference
+  - Improved overall state management for comments functionality
+- **Alignment Fix** (commit f575c99):
+  - Corrected `handleFormSubmit()` to use `newComment` field to align with backend implementation
+  - Ensured frontend and backend are fully synchronized on comment handling
 
 ### Current Status
 - **Completed Tasks**: 1-13 (13 tasks complete)
