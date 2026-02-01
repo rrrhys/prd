@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Manager - Kanban Board</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="header-title">Work Manager</h1>
+            <button id="add-ticket-btn" class="btn btn-primary">
+                <span class="btn-icon">+</span>
+                Add Ticket
+            </button>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="kanban-board">
+                <!-- Backlog Column -->
+                <div class="kanban-column" data-status="backlog">
+                    <div class="column-header">
+                        <h2 class="column-title">Backlog</h2>
+                        <span class="column-count">0</span>
+                    </div>
+                    <div class="column-content" id="backlog-column">
+                        <!-- Tickets will be added here dynamically -->
+                    </div>
+                </div>
+
+                <!-- Marked for Dev Column -->
+                <div class="kanban-column" data-status="marked for dev">
+                    <div class="column-header">
+                        <h2 class="column-title">Marked for Dev</h2>
+                        <span class="column-count">0</span>
+                    </div>
+                    <div class="column-content" id="marked-for-dev-column">
+                        <!-- Tickets will be added here dynamically -->
+                    </div>
+                </div>
+
+                <!-- In Dev Column -->
+                <div class="kanban-column" data-status="in dev">
+                    <div class="column-header">
+                        <h2 class="column-title">In Dev</h2>
+                        <span class="column-count">0</span>
+                    </div>
+                    <div class="column-content" id="in-dev-column">
+                        <!-- Tickets will be added here dynamically -->
+                    </div>
+                </div>
+
+                <!-- Dev Done Column -->
+                <div class="kanban-column" data-status="dev done">
+                    <div class="column-header">
+                        <h2 class="column-title">Dev Done</h2>
+                        <span class="column-count">0</span>
+                    </div>
+                    <div class="column-content" id="dev-done-column">
+                        <!-- Tickets will be added here dynamically -->
+                    </div>
+                </div>
+
+                <!-- UAT Done Column -->
+                <div class="kanban-column" data-status="uat done">
+                    <div class="column-header">
+                        <h2 class="column-title">UAT Done</h2>
+                        <span class="column-count">0</span>
+                    </div>
+                    <div class="column-content" id="uat-done-column">
+                        <!-- Tickets will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Ticket Details/Editing -->
+    <div id="ticket-modal" class="modal" style="display: none;">
+        <div class="modal-overlay" id="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Add New Ticket</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="ticket-form">
+                    <input type="hidden" id="ticket-id" name="id">
+
+                    <div class="form-group">
+                        <label for="ticket-title" class="form-label">Title <span class="required">*</span></label>
+                        <input type="text" id="ticket-title" name="title" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ticket-description" class="form-label">Description <span class="required">*</span></label>
+                        <textarea id="ticket-description" name="description" class="form-textarea" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ticket-effort" class="form-label">Effort (Story Points) <span class="required">*</span></label>
+                            <input type="number" id="ticket-effort" name="effort" class="form-input" min="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ticket-priority" class="form-label">Priority <span class="required">*</span></label>
+                            <select id="ticket-priority" name="priority" class="form-select" required>
+                                <option value="">Select priority</option>
+                                <option value="low">Low</option>
+                                <option value="med">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ticket-assignee" class="form-label">Assignee <span class="required">*</span></label>
+                            <input type="text" id="ticket-assignee" name="assignee" class="form-input" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ticket-status" class="form-label">Status</label>
+                            <select id="ticket-status" name="status" class="form-select">
+                                <option value="backlog">Backlog</option>
+                                <option value="marked for dev">Marked for Dev</option>
+                                <option value="in dev">In Dev</option>
+                                <option value="dev done">Dev Done</option>
+                                <option value="uat done">UAT Done</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ticket-comments" class="form-label">Comments</label>
+                        <textarea id="ticket-comments" name="comments" class="form-textarea" rows="3" placeholder="Add a comment (one per line)"></textarea>
+                        <small class="form-help">Existing comments will be shown above. Add new comments here.</small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submit-btn">Save Ticket</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

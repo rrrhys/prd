@@ -21,56 +21,114 @@
     "id": 2,
     "title": "Create Express server with static file serving",
     "description": "Set up basic Express server that serves static files from public/ directory. Configure CORS and JSON body parsing. Server should run on port 3000.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 3,
     "priority": "high",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Server already configured with CORS and body-parser middleware from Task 1",
+      "Configured express.static middleware to serve files from public/ directory",
+      "Removed redundant basic route to allow static files to take precedence",
+      "Server configured to run on port 3000 with console logging",
+      "Ready to serve frontend files when they are created"
+    ]
   },
   {
     "id": 3,
     "title": "Implement GET /api/tickets endpoint",
     "description": "Create API endpoint that reads .prd/prd.json and returns all tickets as JSON. Include error handling for file read failures.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 2,
     "priority": "high",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Added fs and path modules to server.js for file operations",
+      "Implemented GET /api/tickets route at server.js:20",
+      "Route reads .prd/prd.json using fs.readFile with utf8 encoding",
+      "Returns parsed JSON array of all tickets on success",
+      "Error handling: 500 status with error details for file read failures",
+      "Error handling: 500 status with error details for JSON parse failures",
+      "Proper error logging to console for debugging"
+    ]
   },
   {
     "id": 4,
     "title": "Implement POST /api/tickets endpoint",
     "description": "Create API endpoint to add new tickets. Should auto-increment ID based on highest existing ID. Validate required fields. Write updated data back to prd.json.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 3,
     "priority": "med",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Implemented POST /api/tickets route at server.js:45",
+      "Validates required fields: title, description, effort, priority, assignee",
+      "Validates status values against allowed list: backlog, marked for dev, in dev, dev done, uat done",
+      "Validates priority values against allowed list: low, med, high",
+      "Validates effort is a positive number",
+      "Auto-increments ID by finding max existing ID and adding 1",
+      "Sets createdDate to current date in YYYY-MM-DD format",
+      "Defaults status to 'backlog' if not provided",
+      "Initializes comments as empty array",
+      "Writes updated tickets array back to .prd/prd.json with formatting",
+      "Returns 201 status with newly created ticket on success",
+      "Error handling: 400 for validation errors, 500 for file operations",
+      "Console logging for debugging file read/write errors"
+    ]
   },
   {
     "id": 5,
     "title": "Implement PATCH /api/tickets/:id endpoint",
     "description": "Create API endpoint to update any field(s) of an existing ticket by ID. Support partial updates. Validate status and priority values. Write changes back to prd.json.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 3,
     "priority": "med",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Implemented PATCH /api/tickets/:id route at server.js:147",
+      "Validates ticket ID parameter (must be valid number)",
+      "Validates status values if provided (backlog, marked for dev, in dev, dev done, uat done)",
+      "Validates priority values if provided (low, med, high)",
+      "Validates effort if provided (must be positive number)",
+      "Supports partial updates - only updates fields provided in request body",
+      "Preserves immutable fields: id and createdDate cannot be changed",
+      "Returns 404 if ticket with specified ID not found",
+      "Returns 400 for validation errors (invalid ID, status, priority, effort)",
+      "Returns 500 for file operation errors (read/write/parse)",
+      "Returns 200 with updated ticket object on success",
+      "Uses spread operator to merge existing ticket data with updates",
+      "Writes formatted JSON back to .prd/prd.json with 2-space indentation",
+      "Console logging for debugging file operation errors"
+    ]
   },
   {
     "id": 6,
     "title": "Create HTML structure for kanban board",
     "description": "Build index.html with 5 columns (backlog, marked for dev, in dev, dev done, uat done). Include header with title and 'Add Ticket' button. Add modal structure for ticket details/editing.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 3,
     "priority": "high",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Created public/index.html with complete kanban board structure",
+      "Implemented header with 'Work Manager' title and 'Add Ticket' button",
+      "Created 5 kanban columns: Backlog, Marked for Dev, In Dev, Dev Done, UAT Done",
+      "Each column has header with title and ticket count badge",
+      "Each column has content area with unique ID for dynamic ticket rendering",
+      "Implemented modal structure for ticket creation/editing",
+      "Modal includes complete form with all required fields: title, description, effort, priority, assignee, status",
+      "Form includes validation attributes (required fields, min values)",
+      "Form supports both create and edit modes with hidden ID field",
+      "Modal has overlay for click-to-close functionality",
+      "Form includes comments textarea for adding new comments",
+      "Semantic HTML structure with proper accessibility attributes",
+      "Links to styles.css and app.js for future implementation",
+      "Mobile-responsive viewport meta tag included"
+    ]
   },
   {
     "id": 7,
