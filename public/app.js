@@ -262,6 +262,9 @@ function openAddTicketModal() {
     statusSelect.value = 'backlog';
   }
 
+  // Clear client ref
+  document.getElementById('ticket-client-ref').value = '';
+
   // Clear existing comments display
   const commentsDisplay = document.getElementById('existing-comments');
   if (commentsDisplay) {
@@ -297,6 +300,7 @@ function openEditTicketModal(ticket) {
   document.getElementById('ticket-priority').value = ticket.priority;
   document.getElementById('ticket-assignee').value = ticket.assignee;
   document.getElementById('ticket-status').value = ticket.status;
+  document.getElementById('ticket-client-ref').value = ticket.clientRef || '';
   document.getElementById('ticket-comments').value = '';
 
   // Display existing comments
@@ -401,13 +405,16 @@ async function handleFormSubmit(e) {
   const ticketId = ticketIdInput.value;
   const isEdit = ticketId !== '';
 
+  const clientRefValue = document.getElementById('ticket-client-ref').value.trim();
+
   const ticketData = {
     title: document.getElementById('ticket-title').value,
     description: document.getElementById('ticket-description').value,
     effort: parseInt(document.getElementById('ticket-effort').value),
     priority: document.getElementById('ticket-priority').value,
     assignee: document.getElementById('ticket-assignee').value,
-    status: document.getElementById('ticket-status').value
+    status: document.getElementById('ticket-status').value,
+    clientRef: clientRefValue || null
   };
 
   // Handle comments - send new comment to backend

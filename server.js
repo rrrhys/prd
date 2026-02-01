@@ -154,7 +154,9 @@ app.post('/api/tickets', (req, res) => {
         priority,
         assignee,
         createdDate: today,
-        comments: []
+        comments: [],
+        prs: [],
+        clientRef: req.body.clientRef || null
       };
 
       // Add new ticket to array
