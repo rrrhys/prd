@@ -15,6 +15,9 @@ let ticketIdInput;
 // Column elements
 const columns = {};
 
+// Store current ticket being edited (for comments handling)
+let currentTicket = null;
+
 /**
  * Initialize the application on page load
  */
@@ -223,11 +226,18 @@ function openAddTicketModal() {
   modalTitle.textContent = 'Add New Ticket';
   ticketForm.reset();
   ticketIdInput.value = '';
+  currentTicket = null; // Clear current ticket
 
   // Set default status to backlog
   const statusSelect = document.getElementById('ticket-status');
   if (statusSelect) {
     statusSelect.value = 'backlog';
+  }
+
+  // Clear existing comments display
+  const commentsDisplay = document.getElementById('existing-comments');
+  if (commentsDisplay) {
+    commentsDisplay.innerHTML = '';
   }
 
   modal.style.display = 'flex';
@@ -241,6 +251,9 @@ function openEditTicketModal(ticket) {
   if (!modal || !modalTitle || !ticketForm) return;
 
   modalTitle.textContent = 'Edit Ticket';
+
+  // Store current ticket for comments handling
+  currentTicket = ticket;
 
   // Fill form with ticket data
   ticketIdInput.value = ticket.id;
@@ -295,6 +308,8 @@ function closeModal() {
   if (commentsDisplay) {
     commentsDisplay.innerHTML = '';
   }
+  // Clear current ticket reference
+  currentTicket = null;
 }
 
 /**
@@ -316,10 +331,13 @@ async function handleFormSubmit(e) {
     status: document.getElementById('ticket-status').value
   };
 
-  // Add new comment if provided (only for edits)
+  // Handle comments - append new comment to existing comments array
   const newComment = document.getElementById('ticket-comments').value.trim();
   if (isEdit && newComment) {
-    ticketData.newComment = newComment;
+    // Get existing comments from current ticket
+    const existingComments = currentTicket?.comments || [];
+    // Append the new comment to the array
+    ticketData.comments = [...existingComments, newComment];
   }
 
   try {
