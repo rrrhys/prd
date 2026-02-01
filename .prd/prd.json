@@ -395,7 +395,23 @@
       "Frontend fetches config on page load and updates document.title and header title",
       "Users can now customize project name in .prd/config.json",
       "Multiple instances can run on different ports by changing config.json",
-      "All requirements fulfilled: configurable project name and port"
+      "All requirements fulfilled: configurable project name and port",
+      "Updated .prd/setup_instructions.md with comprehensive config.json documentation",
+      "Added Configuration File section with examples and usage instructions",
+      "Updated Running Multiple Instances section to use config.json approach",
+      "Added GET /api/config to API Endpoints documentation section",
+      "Updated file structure listing to include config.json"
     ]
+  },
+  {
+    "id": 17,
+    "title": "Add a version number to PRD POC, check all documentation is up to date, check example files are ready, etc",
+    "description": "see title",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "low",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
   }
 ]

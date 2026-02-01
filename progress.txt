@@ -1220,21 +1220,34 @@ Building a kanban board application to visualize and manage work items from the 
     - Updates header title (.header-title) to display projectName
     - Error handling with fallback to defaults if fetch fails
     - Called from DOMContentLoaded event before fetching tickets
+  - **Documentation Updates** (.prd/setup_instructions.md):
+    - Added config.json to file structure listing in Installation Steps section
+    - Added new "Configuration File" section with:
+      - Default config.json structure and field descriptions
+      - Instructions for changing project name with example
+      - Instructions for changing port with example
+    - Updated "Running Multiple Instances" section:
+      - Replaced manual server.js editing with config.json approach
+      - Added examples showing three projects with different names and ports
+    - Added GET /api/config to API Endpoints section with response example
+    - Updated "Customization > Changing Project Name" to reference Configuration File section
   - **Benefits**:
     - Users can customize project name in browser tab and header
     - Multiple instances can run on different ports without code changes
     - Configuration centralized in single JSON file
     - Backend validates and provides safe defaults
     - Frontend updates dynamically based on config
+    - Complete documentation for users copying tool to other projects
 - **Files created**:
   - .prd/config.json
 - **Files modified**:
   - server.js (config loading and /api/config endpoint)
   - public/app.js (fetchConfigAndUpdateUI function)
-- **Next**: All tasks complete!
+  - .prd/setup_instructions.md (comprehensive config documentation)
+  - .prd/prd.json (task status and comments)
 
 ### Current Status
 - **Completed Tasks**: 1-16 (16 tasks complete)
-- **Remaining Tasks**: 0
-- **Project Status**: ✅ COMPLETE
+- **Remaining Tasks**: 1 (Task 17: Add version number and finalize documentation)
+- **Next Priority**: Task 17 - Add version number to PRD POC and finalize documentation
 
