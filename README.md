@@ -2,7 +2,11 @@
 
 **Version 1.0.0**
 
-A kanban board application for visualizing and managing work items from a JSON-based PRD (Product Requirements Document) system.
+A self-contained kanban board application for visualizing and managing work items from a JSON-based PRD (Product Requirements Document) system.
+
+## ✨ Key Feature: Self-Contained in `.prd` Folder
+
+**Everything you need is in the `.prd` folder!** Simply copy the `.prd` directory to any project and you have a complete work management system.
 
 ## Features
 
@@ -14,6 +18,7 @@ A kanban board application for visualizing and managing work items from a JSON-b
 - 📊 Story point tracking
 - 💬 Comment history for each ticket
 - ⚙️ Configurable project name and port
+- 📦 **Self-contained**: All files in one folder for easy copying
 
 ## Quick Start
 
@@ -24,14 +29,16 @@ A kanban board application for visualizing and managing work items from a JSON-b
 
 ### Installation
 
-1. Clone or copy this repository:
+**For a new project, simply copy the `.prd` folder:**
+
+1. Copy the `.prd` folder to your project:
 ```bash
-git clone <repository-url>
-cd work-manager
+cp -r work-manager/.prd /path/to/your-project/.prd
 ```
 
-2. Install dependencies:
+2. Navigate to the folder and install dependencies:
 ```bash
+cd /path/to/your-project/.prd
 npm install
 ```
 
@@ -43,6 +50,14 @@ npm start
 4. Open your browser and navigate to:
 ```
 http://localhost:3000
+```
+
+**To run this demo project:**
+
+```bash
+cd work-manager/.prd
+npm install
+npm start
 ```
 
 ## Configuration
@@ -83,20 +98,26 @@ The application can be configured via `.prd/config.json`:
 
 ```
 work-manager/
-├── .prd/
+├── .prd/                     # 📦 SELF-CONTAINED FOLDER - Copy this to your projects!
+│   ├── server.js             # Express backend API
+│   ├── package.json          # Dependencies and scripts
+│   ├── package-lock.json     # Dependency versions
+│   ├── config.json           # Configuration (project name, port)
 │   ├── prd.json              # Ticket data (main PRD file)
 │   ├── prd.json.example      # Example ticket structure
-│   ├── config.json           # Configuration (project name, port)
 │   ├── readme.txt            # PRD system documentation
-│   └── setup_instructions.md # Detailed setup guide
-├── public/
-│   ├── index.html            # Kanban board UI
-│   ├── styles.css            # Styling
-│   └── app.js               # Frontend logic
-├── server.js                # Express backend API
-├── package.json             # Dependencies
-└── README.md                # This file
+│   ├── setup_instructions.md # Detailed setup guide
+│   ├── README.md             # .prd folder documentation
+│   ├── .gitignore            # Git ignore rules
+│   └── public/               # Frontend files
+│       ├── index.html        # Kanban board UI
+│       ├── styles.css        # Styling
+│       └── app.js            # Frontend logic
+├── README.md                 # This file (project overview)
+└── progress.txt              # Development progress tracking
 ```
+
+**Note:** The `.prd` folder is completely self-contained. Everything needed to run the application is inside it.
 
 ## API Endpoints
 
@@ -161,14 +182,33 @@ Edit `public/styles.css` and update CSS custom properties:
 
 To run Work Manager for multiple projects simultaneously:
 
-1. Copy the directory to separate locations
-2. Edit `.prd/config.json` in each instance with unique ports
-3. Start each server independently
+1. **Copy the `.prd` folder** to each project:
+   ```bash
+   cp -r work-manager/.prd /path/to/project-a/.prd
+   cp -r work-manager/.prd /path/to/project-b/.prd
+   cp -r work-manager/.prd /path/to/project-c/.prd
+   ```
 
-Example:
-- Project A: port 3000
-- Project B: port 3001
-- Project C: port 3002
+2. **Edit `config.json`** in each folder with unique ports:
+   ```json
+   // project-a/.prd/config.json
+   { "projectName": "Project A", "port": 3000 }
+
+   // project-b/.prd/config.json
+   { "projectName": "Project B", "port": 3001 }
+
+   // project-c/.prd/config.json
+   { "projectName": "Project C", "port": 3002 }
+   ```
+
+3. **Start each server** independently:
+   ```bash
+   cd /path/to/project-a/.prd && npm start
+   cd /path/to/project-b/.prd && npm start
+   cd /path/to/project-c/.prd && npm start
+   ```
+
+Each instance runs independently with its own tickets and configuration!
 
 ## Technologies Used
 

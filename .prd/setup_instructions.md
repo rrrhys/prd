@@ -22,34 +22,35 @@ Work Manager is a kanban board application that visualizes and manages work item
 
 ## Installation Steps
 
-### 1. Copy Required Files
+### 1. Copy the .prd Folder
 
-Copy the entire Work Manager directory structure to your new project:
+Copy the entire `.prd/` folder to your new project. Everything you need is self-contained in this folder:
 
 ```
 your-project/
-├── .prd/
-│   ├── prd.json          # Your project's tickets (start with empty array: [])
-│   ├── prd.json.example  # Example ticket structure
-│   ├── config.json       # Configuration (project name, port)
-│   ├── readme.txt        # PRD system documentation
-│   └── setup_instructions.md  # This file
-├── public/
-│   ├── index.html        # Kanban board UI
-│   ├── styles.css        # Styling
-│   └── app.js           # Frontend logic
-├── server.js            # Express backend API
-├── package.json         # Dependencies
-├── .gitignore           # Git ignore rules
-└── node_modules/        # (generated after npm install)
+└── .prd/
+    ├── prd.json              # Your project's tickets (start with empty array: [])
+    ├── prd.json.example      # Example ticket structure
+    ├── config.json           # Configuration (project name, port)
+    ├── readme.txt            # PRD system documentation
+    ├── setup_instructions.md # This file
+    ├── package.json          # Dependencies
+    ├── package-lock.json     # Dependency lock file
+    ├── server.js             # Express backend API
+    ├── .gitignore            # Git ignore rules
+    ├── public/               # Frontend files
+    │   ├── index.html        # Kanban board UI
+    │   ├── styles.css        # Styling
+    │   └── app.js            # Frontend logic
+    └── node_modules/         # (generated after npm install)
 ```
 
 ### 2. Install Dependencies
 
-Navigate to your project directory and install dependencies:
+Navigate to the `.prd/` directory and install dependencies:
 
 ```bash
-cd your-project
+cd your-project/.prd
 npm install
 ```
 
@@ -86,7 +87,7 @@ Create your initial `prd.json` file in the `.prd/` directory. Start with an empt
 
 ### 4. Start the Server
 
-Run the development server:
+From the `.prd/` directory, run the server:
 
 ```bash
 npm start
@@ -98,7 +99,7 @@ Or for development with auto-reload (if you have nodemon):
 npm run dev
 ```
 
-The server will start on **http://localhost:3000**
+The server will start on **http://localhost:3000** (or the port specified in `config.json`)
 
 ### 5. Access the Kanban Board
 

@@ -426,5 +426,33 @@
       "Project ready for v1.0.0 release",
       "Committed changes with message: 'Complete Task 17: Add version 1.0.0 and finalize documentation'"
     ]
+  },
+  {
+    "id": 18,
+    "title": "Eveyrhing to run this should be in .prd, incl the package.json. Please fix it",
+    "description": "So I can copy the folder to my other porjects...",
+    "status": "dev done",
+    "effort": 3,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": [
+      "Started work on Task 18 (2026-02-01)",
+      "Moved package.json and package-lock.json into .prd/ folder",
+      "Moved server.js into .prd/ folder",
+      "Moved public/ folder into .prd/ folder",
+      "Moved .gitignore into .prd/ folder",
+      "Updated server.js paths to reference files in same directory:",
+      "- config.json path: changed from '.prd/config.json' to 'config.json'",
+      "- prd.json path: changed from '.prd/prd.json' to 'prd.json'",
+      "- public/ path: updated to use path.join(__dirname, 'public')",
+      "Updated setup_instructions.md to reflect new self-contained structure",
+      "Updated file structure documentation to show everything in .prd/",
+      "Updated installation steps to cd into .prd/ before npm install",
+      "Updated startup instructions to run npm start from .prd/ directory",
+      "Verified all files are now in .prd/ folder - fully self-contained",
+      "Users can now copy just the .prd/ folder to other projects and it will work",
+      "All requirements fulfilled: everything needed is in .prd/ folder"
+    ]
   }
 ]
