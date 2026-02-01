@@ -52,18 +52,15 @@ function setupEventListeners() {
   }
 
   // Close modal button
-  const closeBtn = document.querySelector('.close-btn');
+  const closeBtn = document.getElementById('modal-close');
   if (closeBtn) {
     closeBtn.addEventListener('click', closeModal);
   }
 
   // Modal overlay click to close
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
+  const modalOverlay = document.getElementById('modal-overlay');
+  if (modalOverlay) {
+    modalOverlay.addEventListener('click', closeModal);
   }
 
   // Cancel button
@@ -79,6 +76,24 @@ function setupEventListeners() {
   if (ticketForm) {
     ticketForm.addEventListener('submit', handleFormSubmit);
   }
+
+  // Set up drag-and-drop for all columns
+  setupDragAndDrop();
+}
+
+/**
+ * Set up drag-and-drop event listeners for all columns
+ */
+function setupDragAndDrop() {
+  Object.values(columns).forEach(column => {
+    if (!column) return;
+
+    // Allow dropping in the column
+    column.addEventListener('dragover', handleDragOver);
+    column.addEventListener('dragenter', handleDragEnter);
+    column.addEventListener('dragleave', handleDragLeave);
+    column.addEventListener('drop', handleDrop);
+  });
 }
 
 /**
@@ -175,6 +190,10 @@ function createTicketCard(ticket) {
   // Click to edit
   card.addEventListener('click', () => openEditTicketModal(ticket));
 
+  // Drag event handlers
+  card.addEventListener('dragstart', handleDragStart);
+  card.addEventListener('dragend', handleDragEnd);
+
   return card;
 }
 
@@ -183,18 +202,14 @@ function createTicketCard(ticket) {
  * @param {Object} ticketsByStatus - Tickets grouped by status
  */
 function updateColumnCounts(ticketsByStatus) {
-  const countElements = {
-    'backlog': document.getElementById('count-backlog'),
-    'marked for dev': document.getElementById('count-marked-for-dev'),
-    'in dev': document.getElementById('count-in-dev'),
-    'dev done': document.getElementById('count-dev-done'),
-    'uat done': document.getElementById('count-uat-done')
-  };
+  // Get all column count badges in order
+  const countElements = document.querySelectorAll('.column-count');
+  const statuses = ['backlog', 'marked for dev', 'in dev', 'dev done', 'uat done'];
 
-  Object.entries(countElements).forEach(([status, element]) => {
-    if (element) {
+  statuses.forEach((status, index) => {
+    if (countElements[index]) {
       const count = ticketsByStatus[status]?.length || 0;
-      element.textContent = count;
+      countElements[index].textContent = count;
     }
   });
 }
@@ -215,7 +230,7 @@ function openAddTicketModal() {
     statusSelect.value = 'backlog';
   }
 
-  modal.classList.add('active');
+  modal.style.display = 'flex';
 }
 
 /**
@@ -237,7 +252,7 @@ function openEditTicketModal(ticket) {
   document.getElementById('ticket-status').value = ticket.status;
   document.getElementById('ticket-comments').value = '';
 
-  modal.classList.add('active');
+  modal.style.display = 'flex';
 }
 
 /**
@@ -245,7 +260,7 @@ function openEditTicketModal(ticket) {
  */
 function closeModal() {
   if (modal) {
-    modal.classList.remove('active');
+    modal.style.display = 'none';
   }
   if (ticketForm) {
     ticketForm.reset();
@@ -327,4 +342,157 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+/**
+ * Handle drag start event
+ * @param {DragEvent} e - Drag event
+ */
+function handleDragStart(e) {
+  const card = e.currentTarget;
+  const ticketId = card.dataset.ticketId;
+
+  // Store the ticket ID in the drag data
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', ticketId);
+
+  // Add visual feedback
+  card.classList.add('dragging');
+}
+
+/**
+ * Handle drag end event
+ * @param {DragEvent} e - Drag event
+ */
+function handleDragEnd(e) {
+  const card = e.currentTarget;
+
+  // Remove visual feedback
+  card.classList.remove('dragging');
+
+  // Remove drag-over class from all columns
+  Object.values(columns).forEach(column => {
+    if (column) {
+      column.classList.remove('drag-over');
+    }
+  });
+}
+
+/**
+ * Handle drag over event (required to allow dropping)
+ * @param {DragEvent} e - Drag event
+ */
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+}
+
+/**
+ * Handle drag enter event
+ * @param {DragEvent} e - Drag event
+ */
+function handleDragEnter(e) {
+  const column = e.currentTarget;
+
+  // Only add class if we're entering the column itself, not a child element
+  if (column.classList.contains('column-content')) {
+    column.classList.add('drag-over');
+  }
+}
+
+/**
+ * Handle drag leave event
+ * @param {DragEvent} e - Drag event
+ */
+function handleDragLeave(e) {
+  const column = e.currentTarget;
+
+  // Only remove class if we're actually leaving the column
+  // Check if the related target is not a child of the column
+  if (!column.contains(e.relatedTarget)) {
+    column.classList.remove('drag-over');
+  }
+}
+
+/**
+ * Handle drop event
+ * @param {DragEvent} e - Drag event
+ */
+async function handleDrop(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const column = e.currentTarget;
+  column.classList.remove('drag-over');
+
+  // Get the ticket ID from drag data
+  const ticketId = e.dataTransfer.getData('text/plain');
+  if (!ticketId) return;
+
+  // Get the new status from the column's data attribute
+  const newStatus = column.dataset.status;
+  if (!newStatus) return;
+
+  // Find the ticket card element
+  const ticketCard = document.querySelector(`[data-ticket-id="${ticketId}"]`);
+  if (!ticketCard) return;
+
+  // Get the current column to check if status changed
+  const currentColumn = ticketCard.parentElement;
+  const currentStatus = currentColumn.dataset.status;
+
+  // Don't update if dropped in the same column
+  if (currentStatus === newStatus) return;
+
+  // Store the original parent for rollback on error
+  const originalColumn = currentColumn;
+
+  // Optimistic UI update - move the card immediately
+  column.appendChild(ticketCard);
+  updateColumnCountsFromDOM();
+
+  try {
+    // Update ticket status via API
+    const response = await fetch(`${API_BASE}/${ticketId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ status: newStatus })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update ticket status');
+    }
+
+    // Success - fetch fresh data to ensure consistency
+    await fetchAndDisplayTickets();
+
+  } catch (error) {
+    console.error('Error updating ticket status:', error);
+
+    // Rollback on error - move card back to original column
+    originalColumn.appendChild(ticketCard);
+    updateColumnCountsFromDOM();
+
+    showError(`Failed to move ticket: ${error.message}`);
+  }
+}
+
+/**
+ * Update column counts based on current DOM state
+ */
+function updateColumnCountsFromDOM() {
+  const countElements = document.querySelectorAll('.column-count');
+  const statuses = ['backlog', 'marked for dev', 'in dev', 'dev done', 'uat done'];
+
+  statuses.forEach((status, index) => {
+    const column = columns[status];
+    if (column && countElements[index]) {
+      // Count ticket cards (exclude empty state message)
+      const ticketCards = column.querySelectorAll('.ticket-card');
+      countElements[index].textContent = ticketCards.length;
+    }
+  });
 }

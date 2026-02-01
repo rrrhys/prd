@@ -937,5 +937,167 @@ Building a kanban board application to visualize and manage work items from the 
 - **Files created**:
   - public/app.js
 - **Committed**: 4fc60e9 "Implement JavaScript to fetch and display tickets (Task 8)"
+- **Bug Fixes Applied** (2026-02-01):
+  - Fixed modal display mechanism: Changed from `modal.classList.add/remove('active')` to `modal.style.display = 'flex'/'none'` to work with HTML inline styles
+  - Fixed close button selector: Changed `querySelector('.close-btn')` to `getElementById('modal-close')` to match actual HTML element ID
+  - Fixed modal overlay click handler: Updated to use `modal-overlay` element ID for proper click-to-close functionality
+  - Fixed `updateColumnCounts()`: Changed from getElementById approach to `querySelectorAll('.column-count')` since HTML uses class names, not IDs for column count badges
+  - All modal interactions now work correctly (open, close, overlay click)
+  - Column count badges now update properly when tickets are displayed
 - **Next**: Task 9 - Implement drag-and-drop functionality
+
+#### Task 9: Implement drag-and-drop functionality ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Implementation**:
+  - Added `setupDragAndDrop()` function called from `setupEventListeners()` to initialize drag-and-drop on all columns
+  - **Drag Start Handler** (`handleDragStart()`):
+    - Stores ticket ID in `dataTransfer` for retrieval on drop
+    - Sets `effectAllowed` to 'move' for proper drag cursor
+    - Adds 'dragging' CSS class to card for visual feedback (50% opacity from existing styles)
+  - **Drag End Handler** (`handleDragEnd()`):
+    - Removes 'dragging' class from card
+    - Cleans up 'drag-over' classes from all columns
+  - **Drag Over Handler** (`handleDragOver()`):
+    - Prevents default to allow drop operation
+    - Sets `dropEffect` to 'move'
+  - **Drag Enter Handler** (`handleDragEnter()`):
+    - Adds 'drag-over' CSS class to column when dragging over it
+    - Uses conditional check to only apply to column-content elements
+  - **Drag Leave Handler** (`handleDragLeave()`):
+    - Removes 'drag-over' class when leaving column
+    - Checks `relatedTarget` to avoid removing class when entering child elements
+  - **Drop Handler** (`handleDrop()`):
+    - Async function to handle the drop event
+    - Retrieves ticket ID from `dataTransfer`
+    - Gets new status from column's `data-status` attribute
+    - Checks if status changed (no-op if dropped in same column)
+    - **Optimistic UI update**: Immediately moves card to new column and updates counts
+    - Calls `PATCH /api/tickets/:id` with new status
+    - On success: Refreshes board with `fetchAndDisplayTickets()` for data consistency
+    - On error: Rolls back UI by moving card back to original column and restoring counts
+    - Displays error message to user via `showError()`
+  - **Helper Function** (`updateColumnCountsFromDOM()`):
+    - Counts actual ticket cards in DOM (excludes empty state messages)
+    - Updates column header badges with current counts
+    - Used during optimistic updates and rollbacks
+  - **Event Listeners**:
+    - Card listeners: `dragstart`, `dragend` (attached in `createTicketCard()`)
+    - Column listeners: `dragover`, `dragenter`, `dragleave`, `drop` (attached in `setupDragAndDrop()`)
+  - **Visual Feedback**:
+    - Utilizes existing CSS classes from Task 7:
+      - `.dragging` class: 50% opacity on dragged card
+      - `.drag-over` class: dashed blue border on drop target column
+    - Smooth transitions already implemented in styles.css
+  - **Error Handling**:
+    - Complete rollback of UI changes if API call fails
+    - User-friendly error messages
+    - Console error logging for debugging
+  - **Performance**:
+    - Optimistic UI updates provide instant feedback
+    - No blocking operations during drag
+    - Full data refresh ensures UI stays in sync with backend
+- **Files modified**:
+  - public/app.js (added ~150 lines for drag-and-drop functionality)
+- **Next**: All core features complete! Tasks 10-12 were already implemented earlier.
+
+#### Task 10: Create 'Add New Ticket' modal and form ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Implementation**:
+  - Modal structure already created in Task 6 (public/index.html:81-151)
+  - Implemented openAddTicketModal() function (app.js:201-215)
+  - **Modal Behavior**:
+    - Sets modal title to "Add New Ticket"
+    - Resets form to clear any previous data
+    - Clears hidden ticket ID field to indicate new ticket
+    - Sets default status to 'backlog'
+    - Shows modal by setting display style to 'flex'
+  - **Form Fields**:
+    - Title (required text input)
+    - Description (required textarea)
+    - Effort/Story Points (required number input, min=1)
+    - Priority (required select: low/med/high)
+    - Assignee (required text input)
+    - Status (select dropdown, defaults to 'backlog')
+    - Comments (optional textarea)
+  - **Form Submission**:
+    - Handled by handleFormSubmit() function (app.js:255-306)
+    - Sends POST request to /api/tickets (app.js:284-295)
+    - createdDate auto-set by backend API
+    - Board refreshes after successful creation (app.js:300)
+    - Modal closes automatically on success (app.js:299)
+    - Error handling with user feedback (app.js:304)
+- **Files modified**:
+  - public/app.js (modal and form handling)
+  - public/index.html (modal structure from Task 6)
+- **All requirements fulfilled**
+- **Next**: Task 11 - Implement edit ticket functionality
+
+#### Task 11: Implement edit ticket functionality ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Implementation**:
+  - Implemented click event listener on ticket cards (app.js:176)
+  - Created openEditTicketModal() function (app.js:221-237)
+  - **Edit Modal Behavior**:
+    - Sets modal title to "Edit Ticket"
+    - Pre-fills all form fields with current ticket data
+    - Populates hidden ID field for PATCH request
+    - Shows modal with existing data ready for editing
+  - **Pre-filled Fields**:
+    - Title, description, effort, priority, assignee, status
+    - ID field populated but hidden (immutable)
+    - createdDate preserved by backend (not editable)
+    - Comments textarea available for adding new comments
+  - **Form Submission**:
+    - Uses PATCH method when ticket ID exists (app.js:273-286)
+    - Sends PATCH request to /api/tickets/:id (app.js:275-281)
+    - Backend validates and preserves immutable fields
+    - Modal closes on successful save (app.js:299)
+    - Board refreshed after update (app.js:300)
+    - Error handling with user feedback (app.js:303-305)
+- **Files modified**:
+  - public/app.js (edit modal and PATCH handling)
+- **All requirements fulfilled**
+- **Next**: Task 12 - Add visual enhancements and polish
+
+#### Task 12: Add visual enhancements and polish ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Implementation**:
+  - **Priority Color Indicators**:
+    - Cards have 4px left border colored by priority
+    - High: red (#ef4444), Med: orange (#f59e0b), Low: green (#10b981)
+    - Priority badges with colored backgrounds and white text
+    - Implemented in styles.css
+  - **Story Points Display**:
+    - Displayed in badge with 📊 emoji (app.js:170)
+    - Blue background styling for effort badges
+  - **Assignee Display**:
+    - Shown with 👤 emoji icon (app.js:171)
+    - Clear visual indicator for ticket ownership
+  - **Column Headers with Ticket Counts**:
+    - Dynamically updated count badges (app.js:185-196)
+    - Styled with gray background in column headers
+    - Shows real-time ticket counts per status
+  - **Smooth Transitions**:
+    - Card hover effect: translateY(-2px) with increased shadow
+    - Modal fade-in animation with backdrop blur
+    - All interactive elements have 0.2s ease-in-out transitions
+    - Implemented via CSS custom properties
+  - **HTML Fix**:
+    - Added IDs to column count elements for proper dynamic updates
+    - Ensures JavaScript can target and update count badges correctly
+- **Files modified**:
+  - public/styles.css (from Task 7, visual styling)
+  - public/app.js (from Task 8, badge rendering)
+  - public/index.html (added count element IDs)
+- **All requirements fulfilled**
+- **Next**: Task 9 - Implement drag-and-drop functionality
+
+### Current Status
+- **Completed Tasks**: 1-8, 10-12 (10 tasks complete)
+- **Remaining Tasks**: 9 (drag-and-drop functionality)
+- **Next Priority**: Task 9 - Implement drag-and-drop functionality (8 story points, medium priority)
 
