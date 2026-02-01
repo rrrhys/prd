@@ -1149,8 +1149,38 @@ Building a kanban board application to visualize and manage work items from the 
   - Corrected `handleFormSubmit()` to use `newComment` field to align with backend implementation
   - Ensured frontend and backend are fully synchronized on comment handling
 
+#### Task 14: Create setup instructions file ✓
+- **Date**: 2026-02-01
+- **Status**: dev done
+- **Implementation**:
+  - Created comprehensive setup_instructions.md in .prd folder
+  - **Document structure** (12KB, well-organized markdown):
+    - What is Work Manager - Overview of features and capabilities
+    - Prerequisites - Node.js, npm, git requirements
+    - Installation Steps - Complete step-by-step guide
+    - Using Work Manager - How to add, edit, and move tickets
+    - Workflow Statuses - Explanation of all 5 statuses
+    - Port Configuration - Running multiple instances simultaneously
+    - API Endpoints - Full documentation for GET, POST, PATCH endpoints
+    - Customization - How to change project name, colors, and add custom statuses
+    - Backup and Version Control - Git integration and PRD backup strategies
+    - Troubleshooting - Common issues and solutions
+    - Production Deployment - PM2, Nginx, HTTPS recommendations
+  - **Key sections for users**:
+    - Clear prerequisites and installation instructions
+    - API endpoint reference with request/response examples
+    - Customization guide for branding and workflow
+    - Multiple instance setup with port configuration
+    - Production deployment best practices
+    - Troubleshooting for common issues
+  - Ready for users to replicate this tool in other projects
+- **Files created**:
+  - .prd/setup_instructions.md
+- **Files modified**:
+  - .prd/prd.json (updated task 14 status and comments)
+
 ### Current Status
-- **Completed Tasks**: 1-13 (13 tasks complete)
-- **Remaining Tasks**: 14, 15, 16
-- **Next Priority**: Task 14 - Create setup instructions (2 story points, medium priority)
+- **Completed Tasks**: 1-14 (14 tasks complete)
+- **Remaining Tasks**: 15, 16
+- **Next Priority**: Task 15 - Auto-update ticket status to 'in dev' (2 story points, medium priority)
 

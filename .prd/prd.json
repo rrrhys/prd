@@ -336,23 +336,45 @@
     "id": 14,
     "title": "Create a \"Setup instructions\" file for user",
     "description": "So that user can use this PRD tool in other projects, give them a setup_instructions.md file in the .prd folder",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 2,
     "priority": "med",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Created comprehensive setup_instructions.md file in .prd folder",
+      "Document includes complete installation and setup guide",
+      "Sections covered:",
+      "- What is Work Manager (overview of features)",
+      "- Prerequisites (Node.js, npm, git)",
+      "- Installation steps (copy files, npm install, start server)",
+      "- Using Work Manager (adding, editing, moving tickets)",
+      "- Workflow statuses explanation",
+      "- Port configuration for multiple instances",
+      "- API endpoint documentation (GET, POST, PATCH)",
+      "- Customization guide (project name, colors, custom statuses)",
+      "- Backup and version control recommendations",
+      "- Troubleshooting section (common issues and solutions)",
+      "- Production deployment guidelines (PM2, Nginx, HTTPS)",
+      "File size: ~12KB with detailed examples and code snippets",
+      "Ready for users to copy this tool to other projects"
+    ]
   },
   {
     "id": 15,
     "title": "Change instructions so a ticket moves to 'in dev' when claude is working on it",
     "description": "Change instructions so a ticket moves to 'in dev' when claude is working on it\n\nSo I can monitor status.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 2,
     "priority": "med",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Updated .prd/readme.txt with new instruction for LLMs",
+      "Added guideline #7: LLMs must update ticket status to 'in dev' when starting work",
+      "This allows users to monitor which task Claude is currently working on",
+      "Guideline includes requirement to update status BEFORE implementation and add a comment"
+    ]
   },
   {
     "id": 16,

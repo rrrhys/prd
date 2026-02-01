@@ -104,6 +104,10 @@ For LLMs:
 5. Use current date (YYYY-MM-DD format) for createdDate when creating new tickets
 6. Ensure status transitions follow logical flow:
    backlog → marked for dev → in dev → dev done → uat done
+7. **IMPORTANT**: When you start working on a ticket, immediately update its status to "in dev"
+   - This allows users to monitor which task you're currently working on
+   - Update the status BEFORE you begin implementation work
+   - Add a comment noting when you started work on the ticket
 
 WORKFLOW
 --------
