@@ -1,254 +1,119 @@
-# Work Manager
+# Work Manager - Kanban Board for PRD Management
 
-**Version 1.0.0**
+**Version 1.0.0** | Self-Contained Application
 
-A self-contained kanban board application for visualizing and managing work items from a JSON-based PRD (Product Requirements Document) system.
-
-## ✨ Key Feature: Self-Contained in `.prd` Folder
-
-**Everything you need is in the `.prd` folder!** Simply copy the `.prd` directory to any project and you have a complete work management system.
-
-## Features
-
-- 📋 Visual kanban board with 5 workflow columns (backlog, marked for dev, in dev, dev done, uat done)
-- 🎯 Drag-and-drop functionality to move tickets between statuses
-- 🔄 RESTful API for ticket management
-- ✏️ Modal-based ticket creation and editing
-- 🎨 Priority color coding (red=high, orange=med, green=low)
-- 📊 Story point tracking
-- 💬 Comment history for each ticket
-- ⚙️ Configurable project name and port
-- 📦 **Self-contained**: All files in one folder for easy copying
+This folder contains a complete, self-contained kanban board application for managing Product Requirements Documents (PRD) in JSON format. Everything needed to run the application is in this folder - simply copy it to any project and run!
 
 ## Quick Start
 
-### Prerequisites
-
-- Node.js (version 14 or higher)
-- npm (comes with Node.js)
-
-### Installation
-
-**For a new project, simply copy the `.prd` folder:**
-
-1. Copy the `.prd` folder to your project:
 ```bash
-cp -r work-manager/.prd /path/to/your-project/.prd
-```
+# 1. Navigate to this folder
+cd .prd
 
-2. Navigate to the folder and install dependencies:
-```bash
-cd /path/to/your-project/.prd
+# 2. Install dependencies (first time only)
 npm install
-```
 
-3. Start the server:
-```bash
+# 3. Start the server
 npm start
+
+# 4. Open your browser
+# Navigate to http://localhost:3000
 ```
 
-4. Open your browser and navigate to:
+## What's Included
+
+This folder is completely self-contained with:
+
+- ✅ Backend server (`server.js`) - Express API with RESTful endpoints
+- ✅ Frontend UI (`public/`) - Kanban board interface with drag-and-drop
+- ✅ Configuration (`config.json`) - Customize project name and port
+- ✅ Dependencies (`package.json`) - All npm packages defined
+- ✅ Documentation (`readme.txt`, `setup_instructions.md`) - Complete guides
+- ✅ Example files (`prd.json.example`) - Reference structure
+
+## Features
+
+- 📋 **5 Workflow Columns**: backlog → marked for dev → in dev → dev done → uat done
+- 🖱️ **Drag & Drop**: Move tickets between statuses visually
+- ✏️ **Full CRUD**: Create, read, update tickets via UI or API
+- 🎨 **Priority Colors**: Red (high), orange (med), green (low)
+- 📊 **Story Points**: Track effort estimates
+- 💬 **Comments**: Add progress notes to any ticket
+- ⚙️ **Configurable**: Change project name and port in `config.json`
+
+## Files Overview
+
 ```
-http://localhost:3000
+.prd/
+├── server.js              # Backend Express server
+├── package.json           # Dependencies and scripts
+├── package-lock.json      # Dependency versions
+├── config.json            # Configuration (port, project name)
+├── prd.json               # Your tickets data (JSON array)
+├── prd.json.example       # Example ticket structure
+├── readme.txt             # PRD system documentation
+├── setup_instructions.md  # Detailed setup guide
+├── .gitignore             # Git ignore rules
+├── README.md              # This file
+└── public/                # Frontend files
+    ├── index.html         # Kanban board UI
+    ├── styles.css         # Styling
+    └── app.js             # Frontend JavaScript
 ```
 
-**To run this demo project:**
+## Running on Different Port
 
-```bash
-cd work-manager/.prd
-npm install
-npm start
-```
-
-## Configuration
-
-The application can be configured via `.prd/config.json`:
+Edit `config.json`:
 
 ```json
 {
-  "projectName": "Work Manager",
-  "port": 3000
+  "projectName": "My Project",
+  "port": 4000
 }
 ```
-
-- **projectName**: Displayed in browser tab and header
-- **port**: Server port (useful for running multiple instances)
-
-## Usage
-
-### Adding Tickets
-
-1. Click the **"Add Ticket"** button
-2. Fill in the required fields (title, description, effort, priority, assignee)
-3. Click **Save**
-
-### Editing Tickets
-
-1. Click on any ticket card
-2. Modify fields as needed
-3. Add comments to track progress
-4. Click **Save**
-
-### Moving Tickets
-
-- **Drag and drop**: Drag ticket cards between columns
-- **Manual edit**: Click ticket and change status dropdown
-
-## Project Structure
-
-```
-work-manager/
-├── .prd/                     # 📦 SELF-CONTAINED FOLDER - Copy this to your projects!
-│   ├── server.js             # Express backend API
-│   ├── package.json          # Dependencies and scripts
-│   ├── package-lock.json     # Dependency versions
-│   ├── config.json           # Configuration (project name, port)
-│   ├── prd.json              # Ticket data (main PRD file)
-│   ├── prd.json.example      # Example ticket structure
-│   ├── readme.txt            # PRD system documentation
-│   ├── setup_instructions.md # Detailed setup guide
-│   ├── README.md             # .prd folder documentation
-│   ├── .gitignore            # Git ignore rules
-│   └── public/               # Frontend files
-│       ├── index.html        # Kanban board UI
-│       ├── styles.css        # Styling
-│       └── app.js            # Frontend logic
-├── README.md                 # This file (project overview)
-└── progress.txt              # Development progress tracking
-```
-
-**Note:** The `.prd` folder is completely self-contained. Everything needed to run the application is inside it.
-
-## API Endpoints
-
-- `GET /api/config` - Retrieve configuration
-- `GET /api/tickets` - Retrieve all tickets
-- `POST /api/tickets` - Create a new ticket
-- `PATCH /api/tickets/:id` - Update an existing ticket
-
-See [setup_instructions.md](.prd/setup_instructions.md) for detailed API documentation.
-
-## PRD System
-
-Work Manager uses a JSON-based PRD (Product Requirements Document) system. Each ticket contains:
-
-- **id**: Unique identifier (auto-generated)
-- **title**: Brief description
-- **description**: Detailed explanation
-- **status**: Current workflow stage
-- **effort**: Story points (1, 2, 3, 5, 8, 13, 21, etc.)
-- **priority**: low, med, or high
-- **assignee**: Name or username
-- **createdDate**: Creation date (YYYY-MM-DD)
-- **comments**: Array of progress notes
-
-## Workflow Statuses
-
-1. **backlog** - Ticket identified but not yet prioritized
-2. **marked for dev** - Ready to be picked up by a developer
-3. **in dev** - Active development in progress
-4. **dev done** - Development complete, ready for testing
-5. **uat done** - User acceptance testing complete
-
-## Documentation
-
-- [Setup Instructions](.prd/setup_instructions.md) - Comprehensive setup guide for using Work Manager in your own projects
-- [PRD System Documentation](.prd/readme.txt) - Details on the JSON-based PRD format
-- [Example PRD](.prd/prd.json.example) - Sample ticket structure
-
-## Customization
-
-### Changing Colors
-
-Edit `public/styles.css` and update CSS custom properties:
-
-```css
-:root {
-  --color-primary: #3b82f6;  /* Blue */
-  --priority-high: #ef4444;   /* Red */
-  --priority-med: #f59e0b;    /* Orange */
-  --priority-low: #10b981;    /* Green */
-}
-```
-
-### Adding Custom Statuses
-
-1. Update `.prd/readme.txt` to document new statuses
-2. Update `server.js` validation for POST and PATCH endpoints
-3. Add new columns in `public/index.html`
-4. Update CSS for new columns in `public/styles.css`
 
 ## Running Multiple Instances
 
-To run Work Manager for multiple projects simultaneously:
+You can run multiple instances for different projects by:
 
-1. **Copy the `.prd` folder** to each project:
-   ```bash
-   cp -r work-manager/.prd /path/to/project-a/.prd
-   cp -r work-manager/.prd /path/to/project-b/.prd
-   cp -r work-manager/.prd /path/to/project-c/.prd
-   ```
+1. Copy the `.prd` folder to each project
+2. Configure different ports in each `config.json`
+3. Each instance will run independently
 
-2. **Edit `config.json`** in each folder with unique ports:
-   ```json
-   // project-a/.prd/config.json
-   { "projectName": "Project A", "port": 3000 }
+Example:
+- Project A: `.prd/config.json` → port 3000
+- Project B: `.prd/config.json` → port 3001
+- Project C: `.prd/config.json` → port 3002
 
-   // project-b/.prd/config.json
-   { "projectName": "Project B", "port": 3001 }
+## API Endpoints
 
-   // project-c/.prd/config.json
-   { "projectName": "Project C", "port": 3002 }
-   ```
+All endpoints are available at `http://localhost:{port}/api`
 
-3. **Start each server** independently:
-   ```bash
-   cd /path/to/project-a/.prd && npm start
-   cd /path/to/project-b/.prd && npm start
-   cd /path/to/project-c/.prd && npm start
-   ```
+- **GET /api/tickets** - Get all tickets
+- **POST /api/tickets** - Create a new ticket
+- **PATCH /api/tickets/:id** - Update a ticket
+- **GET /api/config** - Get project configuration
 
-Each instance runs independently with its own tickets and configuration!
+See `setup_instructions.md` for detailed API documentation.
 
-## Technologies Used
+## Technologies
 
-- **Backend**: Node.js + Express.js
-- **Frontend**: Vanilla JavaScript (ES6+)
-- **Styling**: CSS3 with Grid and Flexbox
-- **Data Storage**: JSON file-based
-- **Drag and Drop**: HTML5 Drag and Drop API
+- **Backend**: Node.js + Express
+- **Frontend**: Vanilla JavaScript (no frameworks!)
+- **Storage**: JSON file (`prd.json`)
+- **Dependencies**: express, cors, body-parser
 
-## Dependencies
+## Documentation
 
-- `express` - Web framework
-- `cors` - CORS middleware
-- `body-parser` - Request body parsing
-
-## License
-
-ISC
+For complete documentation, see:
+- `setup_instructions.md` - Full installation and usage guide
+- `readme.txt` - PRD system field specifications
 
 ## Version History
 
-### 1.0.0 (2026-02-01)
+**v1.0.0** (2026-02-01)
 - Initial release
 - Complete kanban board with drag-and-drop
 - RESTful API for ticket management
-- Priority color coding and story points
-- Comment history tracking
 - Configurable project name and port
-
-## Contributing
-
-This tool is designed to be copied and customized for individual projects. Feel free to modify it to suit your needs.
-
-## Support
-
-For issues or questions:
-- Review [setup_instructions.md](.prd/setup_instructions.md)
-- Check [readme.txt](.prd/readme.txt) for PRD system documentation
-- Inspect code comments in `server.js`, `app.js`, and `index.html`
-
----
-
-**Built with ❤️ for efficient project management**
+- Self-contained folder structure
