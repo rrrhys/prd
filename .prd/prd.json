@@ -218,7 +218,8 @@
       "Column event listeners attached in setupDragAndDrop() (dragover, dragenter, dragleave, drop)",
       "Visual feedback relies on existing CSS classes: 'dragging' (50% opacity) and 'drag-over' (dashed border)",
       "Prevents status change when ticket dropped in same column (no-op optimization)",
-      "All requirements fulfilled: HTML5 drag-and-drop, visual feedback, PATCH API update, optimistic UI, error handling"
+      "All requirements fulfilled: HTML5 drag-and-drop, visual feedback, PATCH API update, optimistic UI, error handling",
+      "Bug fix (2026-02-01): Added data-status attributes to all column-content divs in index.html for proper status detection in handleDrop()"
     ]
   },
   {
@@ -305,6 +306,17 @@
     "status": "backlog",
     "effort": 3,
     "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 14,
+    "title": "Create a \"Setup instructions\" file for user",
+    "description": "So that user can use this PRD tool in other projects, give them a setup_instructions.md file in the .prd folder",
+    "status": "backlog",
+    "effort": 2,
+    "priority": "med",
     "assignee": "claude",
     "createdDate": "2026-02-01",
     "comments": []
