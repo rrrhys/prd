@@ -118,6 +118,10 @@ For LLMs:
    - Update the status BEFORE you begin implementation work
    - Add a comment noting when you started work on the ticket
 8. **IMPORTANT**: When you complete a ticket implementation, create a Pull Request:
+   - **Branch Strategy**: Start from the 'main' branch whenever possible to ensure each task
+     has its own clean PR. Exception: If the task is a smaller part of a bigger feature that's
+     already in progress on a branch, it's OK to continue on that branch. In this case,
+     multiple related tasks may share the same PR.
    - Determine which repository the changes are in (app/ or api/)
    - Navigate to the appropriate repository directory
    - Commit your changes with a descriptive message
