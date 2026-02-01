@@ -72,6 +72,14 @@ comments (array, required)
   - Add new comments as work progresses
   - Examples: "Started implementation", "Blocked on API access", "PR submitted"
 
+prs (array, required)
+  - Array of pull request URL strings
+  - Each PR URL should be the full GitHub URL to the pull request
+  - Can be empty array [] if no PRs yet
+  - Add PR URLs as they are created during implementation
+  - Multiple PRs can be listed if changes span multiple repositories (app, api)
+  - Examples: "https://github.com/AwesomeProjectManagement/app/pull/296"
+
 EXAMPLE TICKET
 --------------
 {
@@ -83,7 +91,8 @@ EXAMPLE TICKET
   "priority": "high",
   "assignee": "john.doe",
   "createdDate": "2026-01-15",
-  "comments": []
+  "comments": [],
+  "prs": []
 }
 
 USAGE GUIDELINES
@@ -108,6 +117,16 @@ For LLMs:
    - This allows users to monitor which task you're currently working on
    - Update the status BEFORE you begin implementation work
    - Add a comment noting when you started work on the ticket
+8. **IMPORTANT**: When you complete a ticket implementation, create a Pull Request:
+   - Determine which repository the changes are in (app/ or api/)
+   - Navigate to the appropriate repository directory
+   - Commit your changes with a descriptive message
+   - Push the branch to origin
+   - Create a PR using gh CLI with a summary and test plan
+   - Include "Fixes PRD task #X" in the PR description
+   - Update the ticket status to "dev done"
+   - Add the PR URL(s) to the "prs" array field
+   - Add a comment noting the PR was created
 
 WORKFLOW
 --------
