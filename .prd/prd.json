@@ -3,12 +3,19 @@
     "id": 1,
     "title": "Initialize Node.js project and install dependencies",
     "description": "Set up package.json, install Express, cors, and body-parser. Create basic folder structure (public/ for frontend, server.js for backend).",
-    "status": "marked for dev",
+    "status": "dev done",
     "effort": 2,
     "priority": "high",
     "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": []
+    "comments": [
+      "Initialized npm project with package.json",
+      "Installed express@5.2.1, cors@2.8.6, body-parser@2.2.2",
+      "Created public/ directory for frontend files",
+      "Created server.js with basic Express setup including CORS and body-parser middleware",
+      "Added .gitignore with node_modules, .DS_Store, *.log, .env",
+      "Committed to git with message: 'Initialize Node.js project with Express server setup'"
+    ]
   },
   {
     "id": 2,
