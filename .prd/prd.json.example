@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "title": "Set up project repository",
+    "description": "Initialize git repository, create basic folder structure, and set up initial configuration files",
+    "status": "dev done",
+    "effort": 2,
+    "priority": "high",
+    "assignee": "alice",
+    "createdDate": "2026-01-15",
+    "comments": [
+      "Repository initialized with main branch",
+      "Added .gitignore and basic README"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Design user authentication flow",
+    "description": "Create wireframes and user flow diagrams for login, registration, and password reset functionality",
+    "status": "in dev",
+    "effort": 5,
+    "priority": "high",
+    "assignee": "bob",
+    "createdDate": "2026-01-16",
+    "comments": [
+      "Wireframes completed, waiting for design review"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Write API documentation",
+    "description": "Document all API endpoints, request/response formats, and authentication requirements",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "med",
+    "assignee": "charlie",
+    "createdDate": "2026-01-18",
+    "comments": []
+  },
+  {
+    "id": 4,
+    "title": "Optimize database queries",
+    "description": "Profile slow queries and add appropriate indexes to improve performance",
+    "status": "marked for dev",
+    "effort": 8,
+    "priority": "low",
+    "assignee": "alice",
+    "createdDate": "2026-01-20",
+    "comments": []
+  }
+]

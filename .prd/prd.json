@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "title": "Initialize Node.js project and install dependencies",
+    "description": "Set up package.json, install Express, cors, and body-parser. Create basic folder structure (public/ for frontend, server.js for backend).",
+    "status": "marked for dev",
+    "effort": 2,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 2,
+    "title": "Create Express server with static file serving",
+    "description": "Set up basic Express server that serves static files from public/ directory. Configure CORS and JSON body parsing. Server should run on port 3000.",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 3,
+    "title": "Implement GET /api/tickets endpoint",
+    "description": "Create API endpoint that reads .prd/prd.json and returns all tickets as JSON. Include error handling for file read failures.",
+    "status": "backlog",
+    "effort": 2,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 4,
+    "title": "Implement POST /api/tickets endpoint",
+    "description": "Create API endpoint to add new tickets. Should auto-increment ID based on highest existing ID. Validate required fields. Write updated data back to prd.json.",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 5,
+    "title": "Implement PATCH /api/tickets/:id endpoint",
+    "description": "Create API endpoint to update any field(s) of an existing ticket by ID. Support partial updates. Validate status and priority values. Write changes back to prd.json.",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 6,
+    "title": "Create HTML structure for kanban board",
+    "description": "Build index.html with 5 columns (backlog, marked for dev, in dev, dev done, uat done). Include header with title and 'Add Ticket' button. Add modal structure for ticket details/editing.",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 7,
+    "title": "Create CSS styling for kanban board",
+    "description": "Style the board layout with flexbox/grid. Design ticket cards with shadows and hover effects. Add priority color coding (red=high, yellow=med, green=low). Make responsive for mobile. Style modals and forms.",
+    "status": "backlog",
+    "effort": 5,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 8,
+    "title": "Implement JavaScript to fetch and display tickets",
+    "description": "Create app.js that fetches tickets from GET /api/tickets on load. Parse and group tickets by status. Render ticket cards in appropriate columns showing: ID, title, priority badge, effort points, assignee.",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 9,
+    "title": "Implement drag-and-drop functionality",
+    "description": "Add HTML5 drag-and-drop to ticket cards. Allow dragging between columns. On drop, update ticket status via PATCH endpoint. Show visual feedback during drag. Update UI optimistically and handle errors.",
+    "status": "backlog",
+    "effort": 8,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 10,
+    "title": "Create 'Add New Ticket' modal and form",
+    "description": "Build modal with form fields for: title, description, effort, priority, assignee. Auto-set createdDate to today. Default status to 'backlog'. Submit via POST /api/tickets. Refresh board on success.",
+    "status": "backlog",
+    "effort": 5,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 11,
+    "title": "Implement edit ticket functionality",
+    "description": "Make clicking a ticket card open edit modal pre-filled with current data. Allow editing all fields except ID and createdDate. Add comments field (textarea to add new comments). Save via PATCH endpoint.",
+    "status": "backlog",
+    "effort": 5,
+    "priority": "low",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  },
+  {
+    "id": 12,
+    "title": "Add visual enhancements and polish",
+    "description": "Add priority color indicators to cards (border or badge). Display story points in a badge. Show assignee avatar/initials. Add column headers with ticket counts. Add loading states and smooth transitions.",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "low",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": []
+  }
+]
