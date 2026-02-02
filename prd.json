@@ -1,0 +1,278 @@
+[
+  {
+    "id": 1,
+    "title": "Set up project repository",
+    "description": "Initialize git repository, create basic folder structure, and set up initial configuration files",
+    "status": "uat done",
+    "effort": 2,
+    "priority": "high",
+    "assignee": "alice",
+    "createdDate": "2026-01-15",
+    "comments": [
+      "Repository initialized with main branch",
+      "Added .gitignore and basic README"
+    ],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 2,
+    "title": "Design user authentication flow",
+    "description": "Create wireframes and user flow diagrams for login, registration, and password reset functionality",
+    "status": "uat done",
+    "effort": 5,
+    "priority": "high",
+    "assignee": "bob",
+    "createdDate": "2026-01-16",
+    "comments": [
+      "Wireframes completed, waiting for design review"
+    ],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 3,
+    "title": "Write API documentation",
+    "description": "Document all API endpoints, request/response formats, and authentication requirements",
+    "status": "uat done",
+    "effort": 3,
+    "priority": "med",
+    "assignee": "charlie",
+    "createdDate": "2026-01-18",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 4,
+    "title": "Optimize database queries",
+    "description": "Profile slow queries and add appropriate indexes to improve performance",
+    "status": "uat done",
+    "effort": 8,
+    "priority": "low",
+    "assignee": "alice",
+    "createdDate": "2026-01-20",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 5,
+    "title": "Display original PO value on bills screen",
+    "description": "Show the original PO value on the bills screen so it is clear to the person entering a bill what the approved amount was.",
+    "status": "dev done",
+    "effort": 3,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": [
+      "2026-02-02: Started implementation - will add PO value display to BillDetailsCard",
+      "2026-02-02: Implementation complete - Added 'Approved PO Amount' field to BillDetailsCard in the Amounts section. The field fetches the purchase order data and displays the total amount in bold, making it clear to users entering a bill what the approved amount was.",
+      "2026-02-02: PR created"
+    ],
+    "prs": [
+      "https://github.com/AwesomeProjectManagement/app/pull/296"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Implement bill approval workflow",
+    "description": "Every bill must be approved before processing. Create an authorise screen where approvers can review and approve bills.",
+    "status": "dev done",
+    "effort": 8,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": [
+      "2026-02-02: Started implementation - will create authorise screen for bill approvals",
+      "2026-02-02: Implementation complete - Bill model now implements Approvable interface with full approval workflow support",
+      "2026-02-02: Added approval statuses (pending_approval, approved, rejected) and processApprovalOrRejection method",
+      "2026-02-02: Created BillApprovalsView screen and updated UI to display approval status and rejection notes",
+      "2026-02-02: PRs created for API and App"
+    ],
+    "prs": [
+      "https://github.com/AwesomeProjectManagement/api/pull/162",
+      "https://github.com/AwesomeProjectManagement/app/pull/296"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Add second approver for bills over PO total",
+    "description": "If a bill exceeds the total for its PO, require a second approver. This second approval step ensures oversight on budget overruns.",
+    "status": "dev done",
+    "effort": 5,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": [
+      "2026-02-02: Started implementation - will add second approval logic for bills exceeding PO total",
+      "2026-02-02: Implementation complete - Added dual approval workflow with first_approval status",
+      "2026-02-02: Bills exceeding PO total automatically require two approvals for budget oversight",
+      "2026-02-02: UI displays budget alert and approval status when second approval is needed"
+    ],
+    "prs": [
+      "https://github.com/AwesomeProjectManagement/api/pull/162",
+      "https://github.com/AwesomeProjectManagement/app/pull/296"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Add Bill Approver Permission to Sales Rotation box",
+    "description": "Create a new Bill Approver Permission setting in the Sales Rotation box. This allows configuration of who can approve bills and who requires second approval.",
+    "status": "dev done",
+    "effort": 5,
+    "priority": "high",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": [
+      "2026-02-02: Started implementation - creating Bill Approvers configuration UI",
+      "2026-02-02: Frontend implementation complete - Created BillApprovers component in Organisation Advanced Settings",
+      "2026-02-02: Backend implementation complete - Added canUserApproveBills() method to Organisation model",
+      "2026-02-02: Added tests for permission check logic",
+      "2026-02-02: PRs created for both API and App repos"
+    ],
+    "prs": [
+      "https://github.com/AwesomeProjectManagement/api/pull/164",
+      "https://github.com/AwesomeProjectManagement/app/pull/298"
+    ],
+    "clientRef": null
+  },
+  {
+    "id": 9,
+    "title": "Configure email recipients in Sales Rotation box",
+    "description": "Add configuration in Sales Rotation box to set who receives email notifications for bill approvals and second approvals.",
+    "status": "dev done",
+    "effort": 3,
+    "priority": "med",
+    "assignee": "claude",
+    "createdDate": "2026-02-01",
+    "comments": [
+      "2026-02-02: Started implementation - creating email notification recipients configuration",
+      "2026-02-02: Created BillApprovalNotifications component in Organisation Advanced Settings",
+      "2026-02-02: Added separate sections for first and second approval notification recipients",
+      "2026-02-02: Configuration saves to 'bill-approval-notifications' preference with first_approval_recipient_ids and second_approval_recipient_ids",
+      "2026-02-02: PR created"
+    ],
+    "prs": [
+      "https://github.com/AwesomeProjectManagement/app/pull/299"
+    ],
+    "clientRef": null
+  },
+  {
+    "id": 10,
+    "title": "Build skinny version of tasks for bill approval",
+    "description": "Create a simplified/skinny version of the existing tasks system specifically for the bill approval workflow.",
+    "status": "backlog",
+    "effort": 8,
+    "priority": "med",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 11,
+    "title": "Rename P&L to Actual vs Budget",
+    "description": "Update all references of \"P&L\" in the UI and code to \"Actual vs Budget\" to better reflect what the field represents.",
+    "status": "backlog",
+    "effort": 2,
+    "priority": "low",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 12,
+    "title": "Update terminology to Approved Tender Price",
+    "description": "Standardize terminology across the app to use \"Approved Tender Price\" where appropriate.",
+    "status": "backlog",
+    "effort": 2,
+    "priority": "low",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 13,
+    "title": "Add Tender Cost field to Invoices & Bills Page",
+    "description": "Add a new \"Tender Cost\" field calculated as: approved tender - GST - Markup. This should match the total of POs at the start of the job.\n\nAcceptance Criteria:\n- Field displays on Invoices & Bills Page\n- Calculation: Approved Tender - GST - Markup\n- Value matches sum of initial POs",
+    "status": "backlog",
+    "effort": 5,
+    "priority": "high",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 14,
+    "title": "Rename Total Actual to Running Actuals",
+    "description": "Change \"Total Actual\" field to \"Running Actuals\" and update calculation to be the sum of each PO amount OR actual entered.\n\nAcceptance Criteria:\n- Field renamed in UI\n- Calculation updated: sum of (PO amount OR actual value) for each item\n- Database field migration if needed",
+    "status": "backlog",
+    "effort": 3,
+    "priority": "med",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 15,
+    "title": "Rename Total P&L to Difference",
+    "description": "Rename \"Total P&L\" field to \"Difference\" to more accurately describe the variance calculation.\n\nAcceptance Criteria:\n- UI labels updated\n- Field renamed throughout codebase\n- Reports and exports updated",
+    "status": "backlog",
+    "effort": 2,
+    "priority": "low",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 16,
+    "title": "Add bulk delete for PO line items",
+    "description": "Enable bulk deletion of line items in POs. This allows users to remove multiple items at once, e.g., to add a rounded off total.\n\nAcceptance Criteria:\n- Multi-select checkboxes on PO line items\n- Bulk delete button\n- Confirmation dialog\n- Recalculates PO total after deletion",
+    "status": "backlog",
+    "effort": 5,
+    "priority": "med",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 17,
+    "title": "Show original pre-PO amount in bills for cost codes",
+    "description": "Display the original pre-PO amount for each cost code in the bills view. This tracks whether money was made/saved during the PO stage.\n\nAcceptance Criteria:\n- Bills screen shows both current amount and original pre-PO amount\n- Clear labeling to distinguish the two values\n- Calculation shows variance from original to PO amount",
+    "status": "backlog",
+    "effort": 5,
+    "priority": "high",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-01",
+    "comments": [],
+    "prs": [],
+    "clientRef": null
+  },
+  {
+    "id": 18,
+    "title": "Auto-recalculate price book when builder margin or GST changes",
+    "description": "When the builder's margin or GST % is changed, the price book should automatically recalculate. Currently this is not happening.\n\nIssue Details:\n- Verified on 18th January 2026 at 5pm\n- Changing builder margin does not trigger price book recalculation\n- Changing GST % does not trigger price book recalculation\n- Price book values remain stale until manually recalculated\n\nAcceptance Criteria:\n- When builder margin is updated, all price book items recalculate automatically\n- When GST % is updated, all price book items recalculate automatically\n- Recalculation happens in real-time or with clear feedback\n- Existing price book data is preserved during recalculation",
+    "status": "backlog",
+    "effort": 5,
+    "priority": "high",
+    "assignee": "unassigned",
+    "createdDate": "2026-02-02",
+    "comments": [],
+    "prs": [],
+    "clientRef": "86d1me4xu"
+  }
+]

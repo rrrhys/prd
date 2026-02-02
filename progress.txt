@@ -1,0 +1,198 @@
+PROGRESS LOG
+============
+
+2026-02-02
+----------
+Task #5: Display original PO value on bills screen
+
+Status: dev done
+
+Implementation:
+- Modified app/screens/Settings/BillDetailsCard.tsx to fetch and display the purchase order data
+- Added useSingleResource hook to fetch the purchase order based on the bill's purchase_order_id
+- Added "Approved PO Amount" field at the top of the "Amounts" section
+- The field displays the PO total amount in bold (fontWeight: 600) to make it prominent
+- Field only shows when purchase order data is available
+
+Files Modified:
+- app/screens/Settings/BillDetailsCard.tsx
+
+Pull Request:
+- https://github.com/AwesomeProjectManagement/app/pull/296
+- Branch: pr-294
+- Repository: app/
+
+Result:
+When users enter or edit a bill, they can now clearly see the approved PO amount at the top of the Amounts section, making it easy to compare the bill amount against the approved budget.
+
+---
+
+2026-02-02
+----------
+Task #6: Implement bill approval workflow
+
+Status: dev done
+
+Implementation:
+Backend (API):
+- Modified app/Models/Bill.php to implement Approvable interface
+- Added approval status constants: STATUS_PENDING_APPROVAL, STATUS_APPROVED, STATUS_REJECTED
+- Implemented processApprovalOrRejection() method following PurchaseOrder pattern
+- Added activity logging for bill approval actions
+- Created migration: database/migrations/2026_02_02_000000_add_approval_fields_to_bills_table.php
+  - Adds rejection_notes field to bills table
+
+Frontend (App):
+- Updated data/columns.ts bill status options to include: pending_approval, approved, rejected
+- Added rejection_notes field to Bill type in types/objects.ts
+- Created screens/Accounting/BillApprovalsView.tsx - new screen to list bills pending approval
+- Modified screens/Settings/BillDetailsCard.tsx to display rejection notes when bill is rejected
+
+Files Modified:
+- api/app/Models/Bill.php
+- api/database/migrations/2026_02_02_000000_add_approval_fields_to_bills_table.php (new)
+- app/data/columns.ts
+- app/types/objects.ts
+- app/screens/Settings/BillDetailsCard.tsx
+- app/screens/Accounting/BillApprovalsView.tsx (new)
+
+Pull Requests:
+- API: https://github.com/AwesomeProjectManagement/api/pull/162
+  - Branch: 86d1qtg5a-pregenerate-pdfs
+  - Repository: api/
+- App: https://github.com/AwesomeProjectManagement/app/pull/296 (updated)
+  - Branch: pr-294
+  - Repository: app/
+
+Result:
+Bills now support a full approval workflow using the existing Approvable interface pattern. Bills can be set to 'pending_approval' status, and approvers can approve/reject them via the existing ApprovalsView component (with signature capture). Rejection notes are stored and displayed. The BillApprovalsView screen provides a dedicated view for managing bills awaiting approval.
+
+---
+
+2026-02-02
+----------
+Task #7: Add second approver for bills over PO total
+
+Status: dev done
+
+Implementation:
+Backend (API):
+- Created migration: database/migrations/2026_02_02_000001_add_dual_approval_fields_to_bills_table.php
+  - Adds first_approval_at and second_approval_at timestamp fields
+- Modified app/Models/Bill.php:
+  - Added STATUS_FIRST_APPROVAL constant for intermediate approval state
+  - Added requiresSecondApproval() method to check if bill total > PO total
+  - Updated processApprovalOrRejection() to implement dual approval logic
+  - First approval sets status to 'first_approval' if bill exceeds PO
+  - Second approval sets status to 'approved'
+  - Single approval path for bills within PO budget
+  - Tracks approval type via ApprovalKey approval_type field
+
+Frontend (App):
+- Updated data/columns.ts to include 'first_approval' status option
+- Modified screens/Settings/BillDetailsCard.tsx:
+  - Display approval status message when awaiting second approval
+  - Show budget alert with overage amount when bill exceeds PO
+  - Visual indicators use orange warning color
+  - Helps approvers understand why second approval is needed
+
+Files Modified:
+- api/app/Models/Bill.php
+- api/database/migrations/2026_02_02_000001_add_dual_approval_fields_to_bills_table.php (new)
+- app/data/columns.ts
+- app/screens/Settings/BillDetailsCard.tsx
+
+Pull Requests:
+- API: https://github.com/AwesomeProjectManagement/api/pull/162 (updated)
+  - Branch: 86d1qtg5a-pregenerate-pdfs
+  - Repository: api/
+  - Note: Shared with tasks #6 and #7 as related bill approval features
+- App: https://github.com/AwesomeProjectManagement/app/pull/296 (updated)
+  - Branch: pr-294
+  - Repository: app/
+  - Note: Shared with tasks #5, #6, and #7 as related bill features
+
+Result:
+Bills that exceed their purchase order total now automatically require two separate approvals for budget oversight. The system checks bill amount vs PO amount and routes through appropriate approval workflow. First approver sees clear indication that second approval is needed. Budget alerts show the exact overage amount to help approvers make informed decisions.
+
+---
+
+2026-02-02
+----------
+Task #8: Add Bill Approver Permission to Sales Rotation box
+
+Status: dev done
+
+Implementation:
+Frontend (App):
+- Created components/OrganisationAdvancedSettings/BillApprovers.tsx component
+- Added new "Bill Approvers" tab to Organisation Advanced Settings screen
+- Component displays all organisation users with checkboxes for approval permissions
+- Uses useGetOrganisationPreference and useSetOrganisationPreference hooks
+- Saves configuration to 'bill-approvers' organisation preference
+- Follows same pattern as existing RotatingLeads component
+- Includes description text explaining the purpose
+
+Backend (API):
+- Added canUserApproveBills() method to app/Models/Organisation.php
+- Method accepts User model instance or user ID
+- Checks 'bill-approvers' preference setting for approver_user_ids list
+- Returns boolean indicating if user has bill approval permission
+- Added comprehensive tests in tests/Feature/OrganisationTest.php:
+  - test_canUserApproveBills_returns_true_when_user_is_bill_approver
+  - test_canUserApproveBills_returns_false_when_no_approvers_configured
+- Tests verify both User model and ID parameters work correctly
+
+Files Modified:
+- app/components/OrganisationAdvancedSettings/BillApprovers.tsx (new)
+- app/components/OrganisationAdvancedSettings/OrganisationAdvancedSettings.tsx
+- api/app/Models/Organisation.php
+- api/tests/Feature/OrganisationTest.php
+
+Pull Requests:
+- API: https://github.com/AwesomeProjectManagement/api/pull/164
+  - Branch: task-8-bill-approver-permissions
+  - Repository: api/
+- App: https://github.com/AwesomeProjectManagement/app/pull/298
+  - Branch: task-8-bill-approver-permissions
+  - Repository: app/
+
+Result:
+Administrators can now configure which users have permission to approve bills through the Organisation Advanced Settings screen. The Bill Approvers tab provides an easy checkbox interface to enable/disable approval permissions for each user. This integrates with the backend permission system and will be enforced in the bill approval workflow once PR #162 (approval workflow implementation) is merged.
+
+---
+
+2026-02-02
+----------
+Task #9: Configure email recipients in Sales Rotation box
+
+Status: dev done
+
+Implementation:
+Frontend (App):
+- Created components/OrganisationAdvancedSettings/BillApprovalNotifications.tsx component
+- Added new "Bill Notifications" tab to Organisation Advanced Settings screen
+- Component has two distinct sections:
+  - First Approval Notifications: Configure recipients for initial bill approval requests
+  - Second Approval Notifications: Configure recipients for bills exceeding PO total
+- Each section displays all organisation users with checkboxes
+- Uses useGetOrganisationPreference and useSetOrganisationPreference hooks
+- Saves configuration to 'bill-approval-notifications' organisation preference
+- Clear section headers and descriptions explain each notification type
+
+Files Modified:
+- app/components/OrganisationAdvancedSettings/BillApprovalNotifications.tsx (new)
+- app/components/OrganisationAdvancedSettings/OrganisationAdvancedSettings.tsx
+
+Configuration Structure:
+The 'bill-approval-notifications' preference stores:
+- first_approval_recipient_ids: Array of user IDs who receive emails when bills are submitted for approval
+- second_approval_recipient_ids: Array of user IDs who receive emails when bills exceed PO and need second approval
+
+Pull Request:
+- App: https://github.com/AwesomeProjectManagement/app/pull/299
+  - Branch: task-9-bill-approval-email-recipients
+  - Repository: app/
+
+Result:
+Administrators can now configure which users receive email notifications for bill approvals. The interface provides clear separation between first approval notifications (for all bills) and second approval notifications (for bills exceeding PO totals). This configuration will be used by the email notification system once the approval workflow is fully integrated and email sending is implemented.
