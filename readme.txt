@@ -70,7 +70,13 @@ comments (array, required)
   - Each comment is a simple string
   - Can be empty array [] if no comments yet
   - Add new comments as work progresses
-  - Examples: "Started implementation", "Blocked on API access", "PR submitted"
+  - **TIME TRACKING**: Include time estimates in comments:
+    * When starting: "estimated X hours for mid-level dev"
+    * When finishing: "estimated time taken: X hours for mid-level dev"
+  - Examples:
+    * "2026-01-16: Started implementation - estimated 3 hours for mid-level dev"
+    * "Blocked on API access"
+    * "2026-01-16: PR created - estimated time taken: 3.5 hours for mid-level dev"
 
 prs (array, required)
   - Array of pull request URL strings
@@ -92,13 +98,19 @@ EXAMPLE TICKET
   "id": 1,
   "title": "Implement user login feature",
   "description": "Create login page with username/password authentication. Include form validation and error handling.",
-  "status": "backlog",
+  "status": "dev done",
   "effort": 5,
   "priority": "high",
   "assignee": "john.doe",
   "createdDate": "2026-01-15",
-  "comments": [],
-  "prs": [],
+  "comments": [
+    "2026-01-16: Started implementation - estimated 3 hours for mid-level dev",
+    "2026-01-16: Created login form component with validation",
+    "2026-01-16: PR created - estimated time taken: 3.5 hours for mid-level dev"
+  ],
+  "prs": [
+    "https://github.com/AwesomeProjectManagement/app/pull/123"
+  ],
   "clientRef": null
 }
 
@@ -120,11 +132,21 @@ For LLMs:
 5. Use current date (YYYY-MM-DD format) for createdDate when creating new tickets
 6. Ensure status transitions follow logical flow:
    backlog → marked for dev → in dev → dev done → uat done
-7. **IMPORTANT**: When you start working on a ticket, immediately update its status to "in dev"
+7. **IMPORTANT - BEFORE STARTING ANY NEW TASK**: Check for open PRs needing attention
+   - Before starting work on a new ticket, check if any tasks have:
+     * Status NOT "uat done" AND
+     * Non-empty "prs" array (indicating open PRs)
+   - If such tasks exist, check those PRs for comments from Cursor bot or review feedback
+   - Address any Cursor bot comments by making corrections and pushing new commits
+   - Add a comment to the ticket noting what corrections were made
+   - Only after addressing PR feedback should you start work on a new task
+8. **IMPORTANT**: When you start working on a ticket, immediately update its status to "in dev"
    - This allows users to monitor which task you're currently working on
    - Update the status BEFORE you begin implementation work
    - Add a comment noting when you started work on the ticket
-8. **IMPORTANT**: When you complete a ticket implementation, create a Pull Request:
+   - **TIME ESTIMATION**: Add an estimated "time required" for a mid-level developer
+     Example: "2026-02-02: Started implementation - estimated 2 hours for mid-level dev"
+9. **IMPORTANT**: When you complete a ticket implementation, create a Pull Request:
    - **Branch Strategy**: Start from the 'main' branch whenever possible to ensure each task
      has its own clean PR. Exception: If the task is a smaller part of a bigger feature that's
      already in progress on a branch, it's OK to continue on that branch. In this case,
@@ -138,6 +160,8 @@ For LLMs:
    - Update the ticket status to "dev done"
    - Add the PR URL(s) to the "prs" array field
    - Add a comment noting the PR was created
+   - **TIME TRACKING**: Add an "estimated time taken" for a mid-level developer
+     Example: "2026-02-02: PR created - estimated time taken: 2.5 hours for mid-level dev"
 
 WORKFLOW
 --------
