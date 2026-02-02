@@ -70,13 +70,7 @@ comments (array, required)
   - Each comment is a simple string
   - Can be empty array [] if no comments yet
   - Add new comments as work progresses
-  - **TIME TRACKING**: Include time estimates in comments:
-    * When starting: "estimated X hours for mid-level dev"
-    * When finishing: "estimated time taken: X hours for mid-level dev"
-  - Examples:
-    * "2026-01-16: Started implementation - estimated 3 hours for mid-level dev"
-    * "Blocked on API access"
-    * "2026-01-16: PR created - estimated time taken: 3.5 hours for mid-level dev"
+  - Examples: "Started implementation", "Blocked on API access", "PR submitted"
 
 prs (array, required)
   - Array of pull request URL strings
@@ -92,6 +86,18 @@ clientRef (string, optional)
   - Can be null or omitted if not applicable
   - Examples: "86d1me4xu", "JIRA-1234", "Support-5678"
 
+pre_estimate (number, optional)
+  - Estimated hours required for a mid-level developer to complete the task
+  - Should be set when starting work on the ticket (status changes to "in dev")
+  - Can be null if not yet estimated
+  - Examples: 2, 3.5, 8
+
+post_estimate (number, optional)
+  - Estimated actual hours taken for a mid-level developer to complete the task
+  - Should be set when finishing work on the ticket (status changes to "dev done")
+  - Can be null if task not yet completed
+  - Examples: 2.5, 4, 7.5
+
 EXAMPLE TICKET
 --------------
 {
@@ -104,14 +110,16 @@ EXAMPLE TICKET
   "assignee": "john.doe",
   "createdDate": "2026-01-15",
   "comments": [
-    "2026-01-16: Started implementation - estimated 3 hours for mid-level dev",
+    "2026-01-16: Started implementation",
     "2026-01-16: Created login form component with validation",
-    "2026-01-16: PR created - estimated time taken: 3.5 hours for mid-level dev"
+    "2026-01-16: PR created"
   ],
   "prs": [
     "https://github.com/AwesomeProjectManagement/app/pull/123"
   ],
-  "clientRef": null
+  "clientRef": null,
+  "pre_estimate": 3,
+  "post_estimate": 3.5
 }
 
 USAGE GUIDELINES
@@ -144,8 +152,8 @@ For LLMs:
    - This allows users to monitor which task you're currently working on
    - Update the status BEFORE you begin implementation work
    - Add a comment noting when you started work on the ticket
-   - **TIME ESTIMATION**: Add an estimated "time required" for a mid-level developer
-     Example: "2026-02-02: Started implementation - estimated 2 hours for mid-level dev"
+   - **TIME ESTIMATION**: Set the "pre_estimate" field with estimated hours for a mid-level developer
+     Example: "pre_estimate": 2
 9. **IMPORTANT**: When you complete a ticket implementation, create a Pull Request:
    - **Branch Strategy**: Start from the 'main' branch whenever possible to ensure each task
      has its own clean PR. Exception: If the task is a smaller part of a bigger feature that's
@@ -160,8 +168,8 @@ For LLMs:
    - Update the ticket status to "dev done"
    - Add the PR URL(s) to the "prs" array field
    - Add a comment noting the PR was created
-   - **TIME TRACKING**: Add an "estimated time taken" for a mid-level developer
-     Example: "2026-02-02: PR created - estimated time taken: 2.5 hours for mid-level dev"
+   - **TIME TRACKING**: Set the "post_estimate" field with estimated hours taken for a mid-level developer
+     Example: "post_estimate": 2.5
 
 WORKFLOW
 --------
