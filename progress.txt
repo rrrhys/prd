@@ -159,3 +159,40 @@ Pull Requests:
 
 Result:
 Administrators can now configure which users have permission to approve bills through the Organisation Advanced Settings screen. The Bill Approvers tab provides an easy checkbox interface to enable/disable approval permissions for each user. This integrates with the backend permission system and will be enforced in the bill approval workflow once PR #162 (approval workflow implementation) is merged.
+
+---
+
+2026-02-02
+----------
+Task #9: Configure email recipients in Sales Rotation box
+
+Status: dev done
+
+Implementation:
+Frontend (App):
+- Created components/OrganisationAdvancedSettings/BillApprovalNotifications.tsx component
+- Added new "Bill Notifications" tab to Organisation Advanced Settings screen
+- Component has two distinct sections:
+  - First Approval Notifications: Configure recipients for initial bill approval requests
+  - Second Approval Notifications: Configure recipients for bills exceeding PO total
+- Each section displays all organisation users with checkboxes
+- Uses useGetOrganisationPreference and useSetOrganisationPreference hooks
+- Saves configuration to 'bill-approval-notifications' organisation preference
+- Clear section headers and descriptions explain each notification type
+
+Files Modified:
+- app/components/OrganisationAdvancedSettings/BillApprovalNotifications.tsx (new)
+- app/components/OrganisationAdvancedSettings/OrganisationAdvancedSettings.tsx
+
+Configuration Structure:
+The 'bill-approval-notifications' preference stores:
+- first_approval_recipient_ids: Array of user IDs who receive emails when bills are submitted for approval
+- second_approval_recipient_ids: Array of user IDs who receive emails when bills exceed PO and need second approval
+
+Pull Request:
+- App: https://github.com/AwesomeProjectManagement/app/pull/299
+  - Branch: task-9-bill-approval-email-recipients
+  - Repository: app/
+
+Result:
+Administrators can now configure which users receive email notifications for bill approvals. The interface provides clear separation between first approval notifications (for all bills) and second approval notifications (for bills exceeding PO totals). This configuration will be used by the email notification system once the approval workflow is fully integrated and email sending is implemented.

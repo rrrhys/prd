@@ -141,13 +141,21 @@
     "id": 9,
     "title": "Configure email recipients in Sales Rotation box",
     "description": "Add configuration in Sales Rotation box to set who receives email notifications for bill approvals and second approvals.",
-    "status": "backlog",
+    "status": "dev done",
     "effort": 3,
     "priority": "med",
-    "assignee": "unassigned",
+    "assignee": "claude",
     "createdDate": "2026-02-01",
-    "comments": [],
-    "prs": [],
+    "comments": [
+      "2026-02-02: Started implementation - creating email notification recipients configuration",
+      "2026-02-02: Created BillApprovalNotifications component in Organisation Advanced Settings",
+      "2026-02-02: Added separate sections for first and second approval notification recipients",
+      "2026-02-02: Configuration saves to 'bill-approval-notifications' preference with first_approval_recipient_ids and second_approval_recipient_ids",
+      "2026-02-02: PR created"
+    ],
+    "prs": [
+      "https://github.com/AwesomeProjectManagement/app/pull/299"
+    ],
     "clientRef": null
   },
   {
